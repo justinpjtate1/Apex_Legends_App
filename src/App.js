@@ -9,12 +9,12 @@ import './App.css';
 import Profile from './components/Profile';
 import Weapons from './components/Weapons';
 import GeneralChat from './components/GeneralChat';
-import Login from './components/Login';
-import Signup from './components/Signup';
+import Welcome from './components/Welcome';
 // import Nav from 'react-bootstrap/Nav';
 // import Navbar from 'react-bootstrap/Navbar';
 // import Container from 'react-bootstrap/Container';
 import axios from 'axios';
+
 
 
 class App extends Component{
@@ -22,7 +22,7 @@ class App extends Component{
     super(props)
 
     this.state = {
-      auth: true
+      auth: false
     }
   }
   render() {
@@ -45,8 +45,7 @@ class App extends Component{
           </Router>}
 
         {!this.state.auth &&
-        <h1>Welcome to Apex Legends Dictionary</h1>
-
+        <Welcome />
         }
         
       </>
