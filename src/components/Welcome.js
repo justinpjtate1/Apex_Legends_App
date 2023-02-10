@@ -18,7 +18,9 @@ function Welcome(props) {
                     {/* Work out how to do the logout in the backend */}
                 </nav>
                 <Routes>
-                    <Route path="/api/signin" element={<Signin />} />
+                    <Route path="/api/signin" element={<Signin 
+                    userSignedIn={() => props.userSignedIn()} />} 
+                    />
                     <Route path="/api/signup" element={<Signup />} />
                 </Routes>
             </Router>

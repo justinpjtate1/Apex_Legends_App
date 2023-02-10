@@ -25,6 +25,27 @@ class App extends Component{
       auth: false
     }
   }
+
+  userSignedIn = () => {
+    this.setState({
+      auth: true
+    })
+  }
+
+  userSignedOut = () => {
+    localStorage.removeItem("jwt")
+    this.setState({
+      auth: false
+    })
+  }
+
+  componentDidMount = () => {
+    const token = localStorage.getItem("jwt")
+    if(token !== null) {
+      this.userSignedIn()
+    }
+  }
+
   render() {
     return(
       <>
@@ -34,7 +55,7 @@ class App extends Component{
               <Link to="/api/user">Profile</Link>
               <Link to="/api/weapons">Weapons</Link>
               <Link to="/api/generalchat">Chat</Link>
-              <Link to="/api/logout">Logout</Link>
+              <Link to="/api/logout" onClick={this.userSignedOut}>Logout</Link>
               {/* Work out how to do the logout in the backend */}
             </nav>
             <Routes>
@@ -45,7 +66,7 @@ class App extends Component{
           </Router>}
 
         {!this.state.auth &&
-        <Welcome />
+        <Welcome userSignedIn={this.userSignedIn} />
         }
         
       </>
