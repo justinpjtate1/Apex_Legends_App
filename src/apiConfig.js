@@ -1,8 +1,8 @@
 let apiUrl;
 const expressPort = 5001;
 const apiUrls = {
-    development: `http://localhost:${expressPort}/api`,
-    production: `https://example.domain.com/api`
+    development: `http://localhost:${expressPort}`,
+    production: `https://example.domain.com`
 }
 
 if(window.location.hostname === 'localhost') {

@@ -3,13 +3,16 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link
+  Link,
+  Navigate,
 } from 'react-router-dom';
 import './App.css';
 import Profile from './components/Profile';
 import Weapons from './components/Weapons';
 import GeneralChat from './components/GeneralChat';
 import Welcome from './components/Welcome';
+import Signin from './components/Signin';
+import Signup from './components/Signup';
 // import Nav from 'react-bootstrap/Nav';
 // import Navbar from 'react-bootstrap/Navbar';
 // import Container from 'react-bootstrap/Container';
@@ -27,8 +30,10 @@ class App extends Component{
       weapons: []
     }
   }
+
   // ALL SIGN IN / OUT RELATED METHODS
   userSignedIn = () => {
+    this.getAllWeapons()
     this.setState({
       auth: true
     })
@@ -45,14 +50,15 @@ class App extends Component{
     const token = localStorage.getItem("jwt")
     if(token !== null) {
       this.userSignedIn()
+      this.getAllWeapons()
     }
-    this.getAllWeapons()
+
   }
 
   // WEAPONS FUNCTIONS
   getAllWeapons = () => {
     //axios get
-    axios.get(`${apiUrl}/weapons`, {
+    axios.get(`${apiUrl}/api/weapons`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
         }
@@ -60,9 +66,25 @@ class App extends Component{
     .then((response) => {
         return response.data
     }).then((results) => {
+        this.setState({
+          weapons: results.weapons
+        })
+    })
+  }
+
+// GENERAL CHAT
+  getGeneralChat = () => {
+    axios.get(`${apiUrl}/api/generalchat`, {
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`
+      }
+    })
+    .then((response) => {
+        return response.data
+    }).then((results) => {
       console.log(results)
         this.setState({
-          weapons: results
+          comments: results
         })
     })
   }
@@ -70,25 +92,25 @@ class App extends Component{
   render() {
     return(
       <>
-        {this.state.auth && 
           <Router>
             <nav className='navbar navbar-expand-lg navbar-light bg-light'>
               <Link to="/api/user">Profile</Link>
               <Link to="/api/weapons">Weapons</Link>
               <Link to="/api/generalchat">Chat</Link>
               <Link to="/api/logout" onClick={this.userSignedOut}>Logout</Link>
+              <Link to="/api/signin">Sign In</Link>
+              <Link to="/api/signup">Sign Up</Link>
               {/* Work out how to do the logout in the backend */}
             </nav>
             <Routes>
-              <Route path="/api/user" element={<Profile />} />
-              <Route path="/api/weapons" element={<Weapons weapons={this.state.weapons}/>} />
-              <Route path="/api/generalchat" element={<GeneralChat />} />
+              <Route path="/api/user" element={this.state.auth ? (<Profile />) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/weapons" element={this.state.auth ? (<Weapons weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat generalChat={this.getGeneralChat} comments={this.state.comments}/>) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/signin" element={!this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
+              <Route path="/api/signup" element={!this.state.auth ? (<Signup />) : (<Navigate replace to = {"/"} />)}/>
+              <Route path="/" element={!this.state.auth ? (<h1>Welcome to this Apex Legends App!</h1>) : (<h1>We will set this to be the page name</h1>)}/>
             </Routes>
-          </Router>}
-
-        {!this.state.auth &&
-        <Welcome userSignedIn={this.userSignedIn} />
-        }
+          </Router>
         
       </>
       
