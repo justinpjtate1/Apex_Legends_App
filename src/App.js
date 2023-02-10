@@ -24,7 +24,8 @@ class App extends Component{
 
     this.state = {
       auth: false,
-      weapons: []
+      weapons: [],
+      comments: []
     }
   }
   // ALL SIGN IN / OUT RELATED METHODS
@@ -67,6 +68,23 @@ class App extends Component{
     })
   }
 
+  // GENERAL CHAT
+  getGeneralChat = () => {
+    axios.get(`${apiUrl}/generalchat`, {
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`
+      }
+  })
+  .then((response) => {
+      return response.data
+  }).then((results) => {
+    console.log(results)
+      this.setState({
+        weapons: results
+      })
+  })
+  }
+
   render() {
     return(
       <>
@@ -82,7 +100,7 @@ class App extends Component{
             <Routes>
               <Route path="/api/user" element={<Profile />} />
               <Route path="/api/weapons" element={<Weapons weapons={this.state.weapons}/>} />
-              <Route path="/api/generalchat" element={<GeneralChat />} />
+              <Route path="/api/generalchat" element={<GeneralChat generalChat={this.getGeneralChat} comments={this.state.comments} />} />
             </Routes>
           </Router>}
 
