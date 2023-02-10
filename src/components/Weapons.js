@@ -9,9 +9,14 @@ class Weapons extends Component {
     }
 
     render() {
+        console.log(this.props.weapons)
+        const weaponsList = this.props.weapons.map((weapon, index) => {
+            return <WeaponSimpleView key={index} weapon={weapon} />;
+        })
         return(
             <div>
-            <h1> Weapon </h1>
+            <h1> Weapons </h1>
+            {weaponsList}
             </div>
         )}
     }

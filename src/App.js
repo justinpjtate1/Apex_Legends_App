@@ -35,6 +35,7 @@ class App extends Component{
     this.setState({
       auth: true
     })
+    this.getAllWeapons()
   }
 
   userSignedOut = () => {
@@ -48,7 +49,6 @@ class App extends Component{
     const token = localStorage.getItem("jwt")
     if(token !== null) {
       this.userSignedIn()
-      this.getAllWeapons()
     }
 
   }
@@ -85,7 +85,7 @@ class App extends Component{
             </nav>
             <Routes>
               <Route path="/api/user" element={this.state.auth ? (<Profile />) : (<Navigate replace to = {"/"} />)} />
-              <Route path="/api/weapons" element={this.state.auth ? (<Weapons getAllWeapons={this.getAllWeapons}/>) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/weapons" element={this.state.auth ? (<Weapons weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat />) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/signin" element={!this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
               <Route path="/api/signup" element={!this.state.auth ? (<Signup />) : (<Navigate replace to = {"/"} />)}/>
