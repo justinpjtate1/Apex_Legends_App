@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link
+  Link,
+  Navigate,
 } from 'react-router-dom';
 import './App.css';
 import Profile from './components/Profile';
@@ -72,26 +73,23 @@ class App extends Component{
   render() {
     return(
       <>
-          {!this.state.auth && <h1>Welcome to this Apex Legends App!</h1>}
-          {this.state.auth && <h1>We will set this to be the page name</h1>}
           <Router>
             <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-              {this.state.auth && <><Link to="/api/user">Profile</Link>
+              <Link to="/api/user">Profile</Link>
               <Link to="/api/weapons">Weapons</Link>
               <Link to="/api/generalchat">Chat</Link>
-              <Link to="/api/logout" onClick={this.userSignedOut}>Logout</Link></>}
-              {!this.state.auth && <><Link to="/api/signin">Sign In</Link>
-              <Link to="/api/signup">Sign Up</Link></>}
+              <Link to="/api/logout" onClick={this.userSignedOut}>Logout</Link>
+              <Link to="/api/signin">Sign In</Link>
+              <Link to="/api/signup">Sign Up</Link>
               {/* Work out how to do the logout in the backend */}
             </nav>
             <Routes>
-              {this.state.auth && <><Route path="/api/user" element={<Profile />} />
-              <Route path="/api/weapons" element={<Weapons getAllWeapons={this.getAllWeapons}/>} />
-              <Route path="/api/generalchat" element={<GeneralChat />} /></>}
-              {!this.state.auth && <><Route path="/api/signin" element={<Signin 
-                    userSignedIn={() => this.userSignedIn()} />} 
-                    />
-              <Route path="/api/signup" element={<Signup />} /></>}
+              <Route path="/api/user" element={!this.state.auth ? (<Profile />) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/weapons" element={!this.state.auth ? (<Weapons getAllWeapons={this.getAllWeapons}/>) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/generalchat" element={!this.state.auth ? (<GeneralChat />) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/signin" element={this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
+              <Route path="/api/signup" element={this.state.auth ? (<Signup />) : (<Navigate replace to = {"/"} />)}/>
+              <Route path="/" element={this.state.auth ? (<h1>Welcome to this Apex Legends App!</h1>) : (<h1>We will set this to be the page name</h1>)}/>
             </Routes>
           </Router>
         
