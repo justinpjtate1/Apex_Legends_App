@@ -84,12 +84,12 @@ class App extends Component{
               {/* Work out how to do the logout in the backend */}
             </nav>
             <Routes>
-              <Route path="/api/user" element={!this.state.auth ? (<Profile />) : (<Navigate replace to = {"/"} />)} />
-              <Route path="/api/weapons" element={!this.state.auth ? (<Weapons getAllWeapons={this.getAllWeapons}/>) : (<Navigate replace to = {"/"} />)} />
-              <Route path="/api/generalchat" element={!this.state.auth ? (<GeneralChat />) : (<Navigate replace to = {"/"} />)} />
-              <Route path="/api/signin" element={this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
-              <Route path="/api/signup" element={this.state.auth ? (<Signup />) : (<Navigate replace to = {"/"} />)}/>
-              <Route path="/" element={this.state.auth ? (<h1>Welcome to this Apex Legends App!</h1>) : (<h1>We will set this to be the page name</h1>)}/>
+              <Route path="/api/user" element={this.state.auth ? (<Profile />) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/weapons" element={this.state.auth ? (<Weapons getAllWeapons={this.getAllWeapons}/>) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat />) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/signin" element={!this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
+              <Route path="/api/signup" element={!this.state.auth ? (<Signup />) : (<Navigate replace to = {"/"} />)}/>
+              <Route path="/" element={!this.state.auth ? (<h1>Welcome to this Apex Legends App!</h1>) : (<h1>We will set this to be the page name</h1>)}/>
             </Routes>
           </Router>
         
