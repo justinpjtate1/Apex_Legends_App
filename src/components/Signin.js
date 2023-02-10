@@ -31,7 +31,7 @@ class Signin extends Component {
             })
             .then((response) => {
                 console.log(response.data)
-                localStorage.setItem("jwt", response.data.token);
+                window.localStorage.setItem("jwt", response.data.token);
             })
             .then((response) => {
                 this.props.userSignedIn()
