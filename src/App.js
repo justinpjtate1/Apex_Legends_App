@@ -27,16 +27,16 @@ class App extends Component{
 
     this.state = {
       auth: false,
-      weapons: [],
-      comments: []
+      weapons: []
     }
   }
+
   // ALL SIGN IN / OUT RELATED METHODS
   userSignedIn = () => {
+    this.getAllWeapons()
     this.setState({
       auth: true
     })
-    this.getAllWeapons()
   }
 
   userSignedOut = () => {
@@ -50,6 +50,7 @@ class App extends Component{
     const token = localStorage.getItem("jwt")
     if(token !== null) {
       this.userSignedIn()
+      this.getAllWeapons()
     }
 
   }
@@ -57,7 +58,7 @@ class App extends Component{
   // WEAPONS FUNCTIONS
   getAllWeapons = () => {
     //axios get
-    axios.get(`${apiUrl}/weapons`, {
+    axios.get(`${apiUrl}/api/weapons`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
         }
@@ -69,23 +70,6 @@ class App extends Component{
           weapons: results.weapons
         })
     })
-  }
-
-  // GENERAL CHAT
-  getGeneralChat = () => {
-    axios.get(`${apiUrl}/generalchat`, {
-      headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`
-      }
-  })
-  .then((response) => {
-      return response.data
-  }).then((results) => {
-    console.log(results)
-      this.setState({
-        weapons: results
-      })
-  })
   }
 
   render() {
@@ -104,7 +88,7 @@ class App extends Component{
             <Routes>
               <Route path="/api/user" element={this.state.auth ? (<Profile />) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/weapons" element={this.state.auth ? (<Weapons weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
-              <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat generalChat={this.getGeneralChat} comments={this.state.comments}/>) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat />) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/signin" element={!this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
               <Route path="/api/signup" element={!this.state.auth ? (<Signup />) : (<Navigate replace to = {"/"} />)}/>
               <Route path="/" element={!this.state.auth ? (<h1>Welcome to this Apex Legends App!</h1>) : (<h1>We will set this to be the page name</h1>)}/>

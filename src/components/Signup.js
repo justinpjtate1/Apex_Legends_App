@@ -25,7 +25,7 @@ class Signup extends Component {
     }
 
     handleRegisterClick = () => {
-        axios.post(`${apiUrl}/user`, {
+        axios.post(`${apiUrl}/api/user`, {
             "user": {
                 "username": this.state.username,
                 "password": this.state.password
