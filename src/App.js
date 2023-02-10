@@ -14,6 +14,7 @@ import Welcome from './components/Welcome';
 // import Navbar from 'react-bootstrap/Navbar';
 // import Container from 'react-bootstrap/Container';
 import axios from 'axios';
+import apiUrl from './apiConfig';
 
 
 
@@ -22,10 +23,11 @@ class App extends Component{
     super(props)
 
     this.state = {
-      auth: false
+      auth: false,
+      weapons: []
     }
   }
-
+  // ALL SIGN IN / OUT RELATED METHODS
   userSignedIn = () => {
     this.setState({
       auth: true
@@ -35,15 +37,34 @@ class App extends Component{
   userSignedOut = () => {
     localStorage.removeItem("jwt")
     this.setState({
-      auth: false
+      auth: false,
     })
   }
-
+  // COMPONENT LIFE CYCLE METHODS
   componentDidMount = () => {
     const token = localStorage.getItem("jwt")
     if(token !== null) {
       this.userSignedIn()
     }
+    this.getAllWeapons()
+  }
+
+  // WEAPONS FUNCTIONS
+  getAllWeapons = () => {
+    //axios get
+    axios.get(`${apiUrl}/weapons`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`
+        }
+    })
+    .then((response) => {
+        return response.data
+    }).then((results) => {
+      console.log(results)
+        this.setState({
+          weapons: results
+        })
+    })
   }
 
   render() {
@@ -60,7 +81,7 @@ class App extends Component{
             </nav>
             <Routes>
               <Route path="/api/user" element={<Profile />} />
-              <Route path="/api/weapons" element={<Weapons />} />
+              <Route path="/api/weapons" element={<Weapons weapons={this.state.weapons}/>} />
               <Route path="/api/generalchat" element={<GeneralChat />} />
             </Routes>
           </Router>}
