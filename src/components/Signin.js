@@ -25,7 +25,6 @@ class Signin extends Component {
     }
 
     handleSigninClick = () => {
-        // this.props.userSignedIn()
         axios.post(`${apiUrl}/login`, {
                 "username": this.state.username,
                 "password": this.state.password
