@@ -19,21 +19,21 @@ import Signup from './components/Signup';
 import axios from 'axios';
 import apiUrl from './apiConfig';
 
-
-
 class App extends Component{
   constructor(props) {
     super(props)
 
     this.state = {
       auth: false,
-      weapons: []
+      weapons: [],
+      user: {}
     }
   }
 
   // ALL SIGN IN / OUT RELATED METHODS
   userSignedIn = () => {
     this.getAllWeapons()
+    this.getUser()
     this.setState({
       auth: true
     })
@@ -70,6 +70,20 @@ class App extends Component{
           weapons: results.weapons
         })
     })
+  }
+
+  getUser = () => {
+    const userId = localStorage.getItem('user')
+        axios.get(`${apiUrl}/api/user/${userId}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("jwt")}`
+            }
+        })
+        .then((response) => {
+          this.setState({
+            user: response.data.user
+          })
+        })
   }
 
 // GENERAL CHAT

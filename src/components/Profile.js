@@ -1,7 +1,9 @@
+import React, { Component } from 'react';
 import axios from 'axios';
 import apiUrl from "../apiConfig";
 
-function Profile(props) {
+class Profile extends Component {
+    render() {
         return(
             <div>
                 <h1>Profile</h1>
@@ -12,5 +14,6 @@ function Profile(props) {
             </div>
         )
     }
+}
 
-    export default Profile
+export default Profile
