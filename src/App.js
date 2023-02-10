@@ -27,7 +27,8 @@ class App extends Component{
 
     this.state = {
       auth: false,
-      weapons: []
+      weapons: [],
+      comments: []
     }
   }
   // ALL SIGN IN / OUT RELATED METHODS
@@ -70,6 +71,23 @@ class App extends Component{
     })
   }
 
+  // GENERAL CHAT
+  getGeneralChat = () => {
+    axios.get(`${apiUrl}/generalchat`, {
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`
+      }
+  })
+  .then((response) => {
+      return response.data
+  }).then((results) => {
+    console.log(results)
+      this.setState({
+        weapons: results
+      })
+  })
+  }
+
   render() {
     return(
       <>
@@ -86,7 +104,7 @@ class App extends Component{
             <Routes>
               <Route path="/api/user" element={this.state.auth ? (<Profile />) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/weapons" element={this.state.auth ? (<Weapons getAllWeapons={this.getAllWeapons}/>) : (<Navigate replace to = {"/"} />)} />
-              <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat />) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat generalChat={this.getGeneralChat} comments={this.state.comments}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/signin" element={!this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
               <Route path="/api/signup" element={!this.state.auth ? (<Signup />) : (<Navigate replace to = {"/"} />)}/>
               <Route path="/" element={!this.state.auth ? (<h1>Welcome to this Apex Legends App!</h1>) : (<h1>We will set this to be the page name</h1>)}/>
