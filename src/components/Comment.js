@@ -13,8 +13,8 @@ class Comment extends Component{
                         <Card.Text>
                         {this.props.comment}
                         </Card.Text>
-                        <Button variant="primary">Update</Button>
-                        <Button variant="primary">Delete</Button>
+                        <Button variant="primary" onClick={this.props.updateComment} >Update</Button>
+                        <Button variant="primary" onClick={this.props.deleteComment}>Delete</Button>
                     </Card.Body>
                 </Card>
             </div>
