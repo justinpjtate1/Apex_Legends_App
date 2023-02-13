@@ -46,6 +46,9 @@ class App extends Component{
     localStorage.removeItem("user");
     this.setState({
       auth: false,
+      user_id: '',
+      username: '',
+      favoriteWeapons: []
     })
   }
   // COMPONENT LIFE CYCLE METHODS
