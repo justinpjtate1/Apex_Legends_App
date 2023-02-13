@@ -30,8 +30,8 @@ class Signin extends Component {
                 "password": this.state.password
             })
             .then((response) => {
-                console.log(response.data)
                 localStorage.setItem("jwt", response.data.token);
+                localStorage.setItem("user", response.data.user)
             })
             .then((response) => {
                 this.props.userSignedIn()
