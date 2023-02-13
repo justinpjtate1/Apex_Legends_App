@@ -50,7 +50,7 @@ class Signin extends Component {
             <input type="text" id="signup-username" onChange={this.onUsernameChange}></input>
             <label>Password</label>
             <input type="text" id="signup-password" onChange={this.onPasswordChange}></input>
-            <button onClick={this.handleSigninClick}>Sign In!</button>
+            <button className={'btn-apex'} onClick={this.handleSigninClick}>Sign In!</button>
         </div>
         )
     }
