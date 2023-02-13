@@ -22,18 +22,21 @@ function WeaponModal(props) {
 
         <Modal className='modal' show={show} onHide={handleClose} backdrop="static" keyboard={false}>
             <Modal.Header closeButton>
-            <Modal.Title>Weapon Details</Modal.Title>
+            <Modal.Title>{props.weapon.weaponName} │││ {props.weapon.weaponType}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
             <img className='responsiveImage' src={`http://localhost:5001${props.weapon.weaponImg}`} crossOrigin='anonymous' alt={'Fetching...'}/>
-            I will not close if you click outside me. Don't even try to press
-            escape key.
+            DPS: {props.weapon.stats.dps} <br/>
+            RPM: {props.weapon.stats.rpm} <br/>
+            Ammo Type: {props.weapon.stats.ammoType.charAt(0).toUpperCase() + props.weapon.stats.ammoType.slice(1)}
             </Modal.Body>
             <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+            <Button variant="primary" onClick={handleClose}>
                 Close
             </Button>
-            <Button variant="primary">Understood</Button>
+            <Button variant="outline-primary" onClick={() => props.onFavorite(props.weapon)}>
+                Favorite
+            </Button>
             </Modal.Footer>
         </Modal>
         </>
