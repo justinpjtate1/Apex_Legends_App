@@ -16,9 +16,9 @@ function WeaponModal(props) {
 
     return (
         <>
-        <Button variant="outline-primary" onClick={handleOpen}>
+        <button className="weapon-details" onClick={handleOpen}>
             {props.weapon.weaponName}
-        </Button>
+        </button>
 
         <Modal className='modal' show={show} onHide={handleClose} backdrop="static" keyboard={false}>
             <Modal.Header closeButton>
@@ -34,9 +34,12 @@ function WeaponModal(props) {
             <Button variant="primary" onClick={handleClose}>
                 Close
             </Button>
-            <Button variant="outline-primary" onClick={() => props.onFavorite(props.weapon)}>
+            {!props.isFavorite && <Button variant="outline-primary" onClick={() => props.onFavorite(props.weapon)}>
                 Favorite
-            </Button>
+            </Button>}
+            {props.isFavorite && <Button variant="primary" onClick={() => props.onFavorite(props.weapon)}>
+                Unfavorite
+            </Button>}
             </Modal.Footer>
         </Modal>
         </>
