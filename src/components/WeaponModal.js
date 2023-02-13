@@ -16,7 +16,7 @@ function WeaponModal(props) {
 
     return (
         <>
-        <button className="weapon-details" onClick={handleOpen}>
+        <button className="btn-apex" onClick={handleOpen}>
             {props.weapon.weaponName}
         </button>
 
@@ -31,15 +31,15 @@ function WeaponModal(props) {
             Ammo Type: {props.weapon.stats.ammoType.charAt(0).toUpperCase() + props.weapon.stats.ammoType.slice(1)}
             </Modal.Body>
             <Modal.Footer>
-            <Button variant="primary" onClick={handleClose}>
+            <button className={'btn-apex'} onClick={handleClose}>
                 Close
-            </Button>
-            {!props.isFavorite && <Button variant="outline-primary" onClick={() => props.onFavorite(props.weapon)}>
+            </button>
+            {!props.isFavorite && <button className={'btn-apex'} onClick={() => props.onFavorite(props.weapon)}>
                 Favorite
-            </Button>}
-            {props.isFavorite && <Button variant="primary" onClick={() => props.onFavorite(props.weapon)}>
+            </button>}
+            {props.isFavorite && <button className={'btn-apex'} onClick={() => props.onFavorite(props.weapon)}>
                 Unfavorite
-            </Button>}
+            </button>}
             </Modal.Footer>
         </Modal>
         </>

@@ -23,7 +23,7 @@ code {
   width: 100%;
   max-height: 100%
 }
-.weapon-details {
+.btn-apex {
   color: #993339;
   background-color: #ffffff;
   border: 1px solid #993339;
@@ -31,10 +31,10 @@ code {
   padding: 10px;
   margin: 10px;
 }
-.weapon-details:hover,
-.weapon-details:active,
-.weapon-details:focus,
-.weapon-details.active {
+.btn-apex:hover,
+.btn-apex:active,
+.btn-apex:focus,
+.btn-apex.active {
   /* let's darken #004E64 a bit for hover effect */
   background: #993339;
   color: #ffffff;
