@@ -107,22 +107,6 @@ class App extends Component{
         })
  }
 
-// GENERAL CHAT
-  getGeneralChat = () => {
-    axios.get(`${apiUrl}/api/generalchat`, {
-      headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`
-      }
-    })
-    .then((response) => {
-        return response.data
-    }).then((results) => {
-      console.log(results)
-        this.setState({
-          comments: results
-        })
-    })
-  }
 
   render() {
     return(
@@ -139,7 +123,7 @@ class App extends Component{
             </nav>
             <Routes>
               <Route path="/api/user" element={this.state.auth ? (<Profile user_id={this.state.user_id} username={this.state.username} favoriteWeapons={this.state.favoriteWeapons} />) : (<Navigate replace to = {"/"} />)} />
-              <Route path="/api/weapons" element={this.state.auth ? (<Weapons favoriteWeapons={this.state.favoriteWeapons} onFavorite={this.handleFavorite} weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/weapons" element={this.state.auth ? (<Weapons onFavorite={this.handleFavorite} weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat generalChat={this.getGeneralChat} comments={this.state.comments}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/signin" element={!this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
               <Route path="/api/signup" element={!this.state.auth ? (<Signup />) : (<Navigate replace to = {"/"} />)}/>
