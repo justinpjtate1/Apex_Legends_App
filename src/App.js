@@ -75,8 +75,19 @@ class App extends Component{
     })
   }
   
-    handleFavorite = (weapon) => {
+  handleFavorite = (weapon) => {
     console.log(weapon);
+    const weaponChoice = weapon;
+    const weaponIndex = this.state.favoriteWeapons.indexOf(weaponChoice);
+    let favorites = this.state.favoriteWeapons;
+    if (weaponIndex === -1){
+      favorites.push(weaponChoice);
+    } else {
+      favorites.splice(weaponIndex, 1);
+    }
+    this.setState({
+      favoriteWeapons: favorites
+    });
   }
 
   // PROFILE FUNCTIONS
