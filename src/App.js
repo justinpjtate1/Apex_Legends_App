@@ -128,18 +128,18 @@ class App extends Component{
     return(
       <>
           <Router>
-            <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-              <Link to="/api/user">Profile</Link>
-              <Link to="/api/weapons">Weapons</Link>
-              <Link to="/api/generalchat">Chat</Link>
-              <Link to="/api/logout" onClick={this.userSignedOut}>Logout</Link>
-              <Link to="/api/signin">Sign In</Link>
-              <Link to="/api/signup">Sign Up</Link>
+            <nav className='navbar navbar-expand-lg navbar-light apex-nav'>
+              <Link className={'nav-opts'} to="/api/user">Profile</Link>
+              <Link className={'nav-opts'} to="/api/weapons">Weapons</Link>
+              <Link className={'nav-opts'} to="/api/generalchat">Chat</Link>
+              <Link className={'nav-opts'} to="/api/logout" onClick={this.userSignedOut}>Logout</Link>
+              <Link className={'nav-opts'} to="/api/signin">Sign In</Link>
+              <Link className={'nav-opts'} to="/api/signup">Sign Up</Link>
               {/* Work out how to do the logout in the backend */}
             </nav>
             <Routes>
               <Route path="/api/user" element={this.state.auth ? (<Profile user_id={this.state.user_id} username={this.state.username} favoriteWeapons={this.state.favoriteWeapons} />) : (<Navigate replace to = {"/"} />)} />
-              <Route path="/api/weapons" element={this.state.auth ? (<Weapons onFavorite={this.handleFavorite} weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/weapons" element={this.state.auth ? (<Weapons favoriteWeapons={this.state.favoriteWeapons} onFavorite={this.handleFavorite} weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat generalChat={this.getGeneralChat} comments={this.state.comments}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/signin" element={!this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
               <Route path="/api/signup" element={!this.state.auth ? (<Signup />) : (<Navigate replace to = {"/"} />)}/>

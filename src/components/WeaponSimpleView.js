@@ -8,10 +8,10 @@ class WeaponSimpleView extends Component {
     render() {
         return(
             <>
-            <div>
+            <div className={`grid-item ${this.props.weapon.stats.ammoType}`}>
                 {/* WHEN WE PUBLISH THIS, THE URL WILL NEED TO CHANGE */}
-                <img src={`http://localhost:5001${this.props.weapon.weaponImg}`} crossOrigin='anonymous' alt={'Fetching...'}/>
-                <WeaponModal onFavorite={this.props.onFavorite} weapon={this.props.weapon}/>
+                <img className={`weapon-image`} src={`http://localhost:5001${this.props.weapon.weaponImg}`} crossOrigin='anonymous' alt={'Fetching...'}/>
+                <WeaponModal isFavorite = {this.props.isFavorite} onFavorite={this.props.onFavorite} weapon={this.props.weapon}/>
             </div>
 
             </>
