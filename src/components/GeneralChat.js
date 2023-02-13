@@ -94,7 +94,7 @@ class GeneralChat extends Component {
     // UPDATE COMMENT
     updateComment = (event) => {
         event.preventDefault();
-        axios.delete('/api/generalchat/:id', 
+        axios.put('/api/generalchat/:id', 
         {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
