@@ -10,8 +10,7 @@ class GeneralChat extends Component {
         super(props)
         this.state = {
             comment: '',
-            allComments: [{"comment": "Hello"}, {"comment": "Pickles"}],
-            userId: ''
+            allComments: [{"comment": "Hello"}, {"comment": "Pickles"}]
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -43,30 +42,6 @@ class GeneralChat extends Component {
         })
     }
 
-    getUserId(){
-        axios.get(`${apiUrl}/api/user/:userID`,
-            {
-                userId: this.state.userId
-            }, 
-            {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("jwt")}`
-            }
-            })
-            .then((response) => {
-                console.log(response)
-                return response.data
-            }).then((results) => {
-                console.log(results)
-                if (results.length > 0){
-                    // setting state for all comments in the database
-                    this.setState({
-                        allComments: results
-                    })
-                }
-            })
-    }
-
 
     handleSubmit(event) {
         console.log(event)
@@ -74,7 +49,7 @@ class GeneralChat extends Component {
         // pushing comment to database
         axios.post(`${apiUrl}/api/generalchat`, 
             { 
-                userId: this.state.userId,
+                userId: this.props.user_id,
                 comment: this.state.comment
             }, 
             {
