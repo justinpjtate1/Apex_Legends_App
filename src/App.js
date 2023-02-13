@@ -26,7 +26,9 @@ class App extends Component{
     this.state = {
       auth: false,
       weapons: [],
-      user: {}
+      user_id: '',
+      username: '',
+      favoriteWeapons: []
     }
   }
 
@@ -40,7 +42,8 @@ class App extends Component{
   }
 
   userSignedOut = () => {
-    localStorage.removeItem("jwt")
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("user");
     this.setState({
       auth: false,
     })
@@ -72,6 +75,7 @@ class App extends Component{
     })
   }
 
+  // PROFILE FUNCTIONS
   getUser = () => {
     const userId = localStorage.getItem('user')
         axios.get(`${apiUrl}/api/user/${userId}`, {
@@ -81,7 +85,9 @@ class App extends Component{
         })
         .then((response) => {
           this.setState({
-            user: response.data.user
+            user_id: response.data.user._id,
+            username: response.data.user.username,
+            favoriteWeapons: response.data.user.favoriteWeapons
           })
         })
   }
@@ -117,7 +123,7 @@ class App extends Component{
               {/* Work out how to do the logout in the backend */}
             </nav>
             <Routes>
-              <Route path="/api/user" element={this.state.auth ? (<Profile />) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/user" element={this.state.auth ? (<Profile user_id={this.state.user_id} username={this.state.username} favoriteWeapons={this.state.favoriteWeapons} />) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/weapons" element={this.state.auth ? (<Weapons weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat generalChat={this.getGeneralChat} comments={this.state.comments}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/signin" element={!this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
