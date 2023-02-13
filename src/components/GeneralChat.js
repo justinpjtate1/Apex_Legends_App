@@ -10,77 +10,99 @@ class GeneralChat extends Component {
         super(props)
         this.state = {
             comment: '',
-            allComments: []
+            allComments: [{"comment": "Hello"}, {"comment": "Pickles"}],
+            userId: ''
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    // 
-    getGeneralChat = () => {
-        axios.get(`${apiUrl}/api/generalchat`, {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`
-        }
-        })
-        .then((response) => {
-            return response.data
-        }).then((results) => {
-        console.log(results)
-            this.setState({
-                allComments: results
+    componentDidMount () {
+            axios.get(`${apiUrl}/api/generalchat`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("jwt")}`
+            }
             })
-        })
+            .then((response) => {
+                console.log(response)
+                return response.data
+            }).then((results) => {
+                console.log(results)
+                if (results.length > 0){
+                    // setting state for all comments in the database
+                    this.setState({
+                        allComments: results
+                    })
+                }
+            })
     }
 
-
-
     handleChange (event) {
-        console.log('hey')
         this.setState({
             comment: event.target.value
         })
     }
 
+    getUserId(){
+        axios.get(`${apiUrl}/api/user/:userID`,
+            {
+                userId: this.state.userId
+            }, 
+            {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("jwt")}`
+            }
+            })
+            .then((response) => {
+                console.log(response)
+                return response.data
+            }).then((results) => {
+                console.log(results)
+                if (results.length > 0){
+                    // setting state for all comments in the database
+                    this.setState({
+                        allComments: results
+                    })
+                }
+            })
+    }
+
+
     handleSubmit(event) {
         console.log(event)
         event.preventDefault();
-
-        console.log(localStorage.getItem("jwt"))
-        // saving it 
-        axios.post(`${apiUrl}/api/generalchat`, {
-            comment: this.state.comment
-          }, {
+        // pushing comment to database
+        axios.post(`${apiUrl}/api/generalchat`, 
+            { 
+                userId: this.state.userId,
+                comment: this.state.comment
+            }, 
+            {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("jwt")}`
             },
-          })
+            })
           .then((response) => {
               return response.data
-          })
+          })  
 
-
-        
+          // array in a state >>> pushing comment to allComments array
+          this.setState(prevState => ({
+            allComments: [ {"comment": this.state.comment}, ...prevState.allComments]
+          }))
       }
-    addNewComment = () => { 
-        this.state.allComments.map((comment) => {
-        return <Comment 
-        username={comment.username}
-        comment={comment.comment}/>
-    })}
+
+    // addNewComment = () => {
+    //     console.log('>> this.state.allComments ', this.state.allComments);
+    //     if (this.state.allComments.length > 0){
+    //         this.state.allComments.map((comment, index) => {
+    //         return <Comment 
+    //         comment={comment.comment}
+    //         key={index} />
+    //      })}
+    // }
 
 
-    editComment() {
-
-    }
-
-    deleteComment() {
-
-    }
-
-    updateComment() {
-
-    }
 
     render() {
 
@@ -94,7 +116,10 @@ class GeneralChat extends Component {
                         <Button variant="primary" type="submit" onClick={this.handleSubmit}>Submit</Button>
                     </Card.Body>
                 </Card>
-               { this.addNewComment }
+               { this.state.allComments.map((comment, index) => {
+            return <Comment 
+            comment={comment.comment}
+            key={index} />}) }
             </div>
         )
     } 
