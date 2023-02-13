@@ -11,7 +11,7 @@ class WeaponSimpleView extends Component {
             <div>
                 {/* WHEN WE PUBLISH THIS, THE URL WILL NEED TO CHANGE */}
                 <img src={`http://localhost:5001${this.props.weapon.weaponImg}`} crossOrigin='anonymous' alt={'Fetching...'}/>
-                <WeaponModal weapon={this.props.weapon}/>
+                <WeaponModal onFavorite={this.props.onFavorite} weapon={this.props.weapon}/>
             </div>
 
             </>

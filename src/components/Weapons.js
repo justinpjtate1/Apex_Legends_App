@@ -11,7 +11,7 @@ class Weapons extends Component {
     render() {
         console.log(this.props.weapons)
         const weaponsList = this.props.weapons.map((weapon, index) => {
-            return <WeaponSimpleView key={index} weapon={weapon} />;
+            return <WeaponSimpleView onFavorite={this.props.onFavorite} key={index} weapon={weapon} />;
         })
         return(
             <div>
