@@ -14,7 +14,7 @@ class Comment extends Component{
                         {this.props.comment}
                         </Card.Text>
                         <Button variant="primary" onClick={this.props.updateComment} >Update</Button>
-                        <Button variant="primary" onClick={this.props.deleteComment}>Delete</Button>
+                        <Button variant="primary" data-commentid={this.props.dataattribute} className={this.props.dataattribute} onClick={this.props.deleteComment}>Delete</Button>
                     </Card.Body>
                 </Card>
             </div>

@@ -10,6 +10,7 @@ class GeneralChat extends Component {
         super(props)
         this.state = {
             comment: '',
+            commentId: '',
             allComments: []
         }
         this.handleChange = this.handleChange.bind(this)
@@ -19,40 +20,46 @@ class GeneralChat extends Component {
 
     }
 
+
+    // GENERAL CHAT GET
+    getAllComments = () => {
+        axios.get(`${apiUrl}/api/generalchat`, 
+        {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`
+        }
+        })
+        .then((response) => {
+            console.log(response)
+            this.setState({
+                allComments: response.data.comment,
+                comment: ''
+            })
+        })
+        .catch(e => console.log(`error: DISPLAY >>> ${e}`))
+}
+    // SAVE INPUT
+    handleChange = (event) => {
+    this.setState({
+        comment: event.target.value
+    })
+        }
+
     // DISPLAY ALL COMMENTS
     componentDidMount = () => {
-            axios.get(`${apiUrl}/api/generalchat`, 
-            {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("jwt")}`
-            }
-            })
-            .then((response) => {
-                console.log(response)
-                this.setState({
-                    allComments: response.data.comment,
-                    comment: ''
-                })
-            })
-            .catch(e => console.log(`error: DISPLAY >>> ${e}`))
-    }
-
-    handleChange = (event) => {
-        this.setState({
-            comment: event.target.value
-        })
+        this.getAllComments()
     }
 
     // SAVING COMMENTS TO DATABASE
     handleSubmit = (event) => {
         event.preventDefault();
+        console.log(this.props)
         console.log(this.props.user_id)
         axios.post(`${apiUrl}/api/generalchat`, 
             { 
                 comment: {
                     userId: this.props.user_id,
-                    comment: this.state.comment,
-                    
+                    comment: this.state.comment
                 }
             }, 
             {
@@ -75,7 +82,13 @@ class GeneralChat extends Component {
     // DELETE COMMENT
     deleteComment = (event) => {
     event.preventDefault();
-        axios.delete(`${apiUrl}/api/generalchat/${this.props.user_id}`, 
+    console.log('>> event ', event);
+    console.log('>> data ', event.target.getAttribute("data-commentid"));
+
+    let clickedCommentId =  event.target.getAttribute("data-commentid");
+
+    // this.getCommentId()
+        axios.delete(`${apiUrl}/api/generalchat/${clickedCommentId}`, 
         {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
@@ -83,10 +96,7 @@ class GeneralChat extends Component {
         })
         .then((response) => {
             console.log('response >>>',response)
-            this.setState({
-                allComments: response.data.comment,
-                comment: ''
-            })
+            this.getAllComments()
         })
         .catch(e => console.log(`error: DELETE >>> ${e}`))  
     }  
@@ -123,12 +133,13 @@ class GeneralChat extends Component {
                { this.state.allComments.sort(function(a, b){
                 return new Date(a.date) - new Date(b.date);
                 }).map((comment, index) => {
-                return <Comment 
+                    return <Comment 
                 comment={comment.comment}
                 username={this.props.username}
-                key={index} 
+                key={index}
                 deleteComment={this.deleteComment}
                 updateComment={this.updateComment}
+                dataattribute={comment._id}
                 />}) }
             </div>
         )
@@ -137,17 +148,3 @@ class GeneralChat extends Component {
 
 
 export default GeneralChat
-
-
-
-
-
-
-
-
-
-
-
-
-
-
