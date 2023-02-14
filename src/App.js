@@ -39,15 +39,44 @@ class App extends Component{
     this.setState({
       auth: true
     })
+    setInterval(this.refreshAccessToken(), 29000)
   }
 
   userSignedOut = () => {
+    if (localStorage.getItem('user') !== null) {
+    axios.patch(`${apiUrl}/api/logout/${localStorage.getItem('user')}`, {
+      "token": `${localStorage.getItem('refreshToken')}`
+    })
+    .then(response => {
+      console.log(response.data);
+    }).catch(err => {
+      console.log('Not Logged In')
+    })
     localStorage.removeItem("jwt");
     localStorage.removeItem("user");
+    localStorage.removeItem('refreshToken');
     this.setState({
       auth: false,
-    })
+    });
   }
+  }
+
+   // Check token expiration
+  refreshAccessToken = () => {
+    const token =localStorage.getItem("refreshToken");
+    if (token !== null && token !== undefined) {
+        axios.post(`${apiUrl}/api/token/${localStorage.getItem('user')}`, {
+          "token": `${localStorage.getItem('refreshToken')}`
+        })
+        .then((response) => {return response.data})
+        .then((result) => {
+          localStorage.removeItem('jwt');
+          localStorage.setItem('jwt', result.accessToken)
+        })
+    }
+
+  };
+
   // COMPONENT LIFE CYCLE METHODS
   componentDidMount = () => {
     const token = localStorage.getItem("jwt")
@@ -106,7 +135,6 @@ class App extends Component{
           })
         })
  }
-
 
   render() {
     return(
