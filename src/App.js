@@ -39,7 +39,7 @@ class App extends Component{
     this.setState({
       auth: true
     })
-    setInterval(this.refreshAccessToken(), 29000)
+    setInterval(this.refreshAccessToken, 10000)
   }
 
   userSignedOut = () => {
@@ -64,6 +64,7 @@ class App extends Component{
    // Check token expiration
   refreshAccessToken = () => {
     const token =localStorage.getItem("refreshToken");
+    console.log(token);
     if (token !== null && token !== undefined) {
         axios.post(`${apiUrl}/api/token/${localStorage.getItem('user')}`, {
           "token": `${localStorage.getItem('refreshToken')}`
@@ -74,7 +75,6 @@ class App extends Component{
           localStorage.setItem('jwt', result.accessToken)
         })
     }
-
   };
 
   // COMPONENT LIFE CYCLE METHODS
@@ -86,7 +86,11 @@ class App extends Component{
     }
 
   }
-
+  componentWillUnmount = () => {
+    if (this.state.auth) {
+      this.refreshAccessToken();
+    }
+  }
   // WEAPONS FUNCTIONS
   getAllWeapons = () => {
     //axios get
