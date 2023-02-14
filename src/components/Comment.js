@@ -1,22 +1,43 @@
 import React, { Component } from "react";
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
 
 
 class Comment extends Component{
+
+    constructor(props){
+        super(props)
+        this.state = {
+            comment: this.props.comment
+        }
+    }
+
+    inputChangedHandler = (event) => {
+        this.setState({
+            comment: event.target.value
+        })
+        // May be call for search result
+    }
+
     render() {
         return(
             <div>
-                <Card>
-                    <Card.Header>{this.props.username}</Card.Header>
-                    <Card.Body>
-                        <Card.Text>
-                        {this.props.comment}
-                        </Card.Text>
-                        <Button variant="primary" onClick={this.props.updateComment} >Update</Button>
-                        <Button variant="primary" data-commentid={this.props.dataattribute} className={this.props.dataattribute} onClick={this.props.deleteComment}>Delete</Button>
-                    </Card.Body>
-                </Card>
+                    <Form.Group>
+                        <Form.Label>{this.props.username}</Form.Label>
+
+                        <Form>
+                            <Form.Control type="text" 
+                            value={this.state.comment} 
+                            disabled={this.props.isDisabled}
+                            onChange={(e)=>{this.inputChangedHandler(e)}}/>
+
+                            <Button variant="primary" data-commentid={this.props.dataattribute} onClick={this.props.updateComment} className={`${this.props.updateClassNameVisible}`} >Update</Button>
+
+                            <Button variant="primary"  className={`${this.props.updateClassNameHidden}`} data-commentid={this.props.dataattribute} onClick={this.props.saveUpdatedComment} >Save</Button>
+
+                            <Button variant="primary" data-commentid={this.props.dataattribute} onClick={this.props.deleteComment} className={`${this.props.updateClassNameVisible}`}>Delete</Button>
+                        </Form>
+                    </Form.Group>
             </div>
         )} 
     }

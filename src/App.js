@@ -124,7 +124,7 @@ class App extends Component{
             <Routes>
               <Route path="/api/user" element={this.state.auth ? (<Profile user_id={this.state.user_id} username={this.state.username} favoriteWeapons={this.state.favoriteWeapons} />) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/weapons" element={this.state.auth ? (<Weapons onFavorite={this.handleFavorite} weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
-              <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat user_id={this.state.user_id}/>) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat user_id={this.state.user_id} username={this.state.username} />) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/signin" element={!this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
               <Route path="/api/signup" element={!this.state.auth ? (<Signup />) : (<Navigate replace to = {"/"} />)}/>
               <Route path="/" element={!this.state.auth ? (<h1>Welcome to this Apex Legends App!</h1>) : (<h1>We will set this to be the page name</h1>)}/>
