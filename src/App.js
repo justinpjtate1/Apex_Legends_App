@@ -39,7 +39,7 @@ class App extends Component{
     this.setState({
       auth: true
     })
-    setInterval(this.refreshAccessToken, 60000)
+    setInterval(this.refreshAccessToken, 10000)
   }
 
   userSignedOut = () => {
@@ -86,7 +86,11 @@ class App extends Component{
     }
 
   }
-
+  componentWillUnmount = () => {
+    if (this.state.auth) {
+      this.refreshAccessToken();
+    }
+  }
   // WEAPONS FUNCTIONS
   getAllWeapons = () => {
     //axios get
