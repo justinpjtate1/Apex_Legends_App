@@ -24,7 +24,8 @@ class Comment extends Component{
         return(
             <div>
                     <Form.Group>
-                        <Form.Label>{this.props.username}</Form.Label>
+                        {!this.props.currentUsername && <Form.Label>{this.props.databaseUsername}</Form.Label>}
+                        {this.props.currentUsername && <Form.Label>{this.props.currentUsername}</Form.Label>}
 
                         <Form>
                             <Form.Control type="text" 
@@ -34,10 +35,9 @@ class Comment extends Component{
 
                             <button onClick={this.props.updateComment} className={`${this.props.updateClassNameVisible} btn-apex`} >Update</button>
 
-                            {/* <button className={`${this.props.updateClassNameHidden} btn-apex`}  onClick={(event)=>{this.props.saveUpdatedComment(this.props.commentId, event)}} >Save</button>
+                            <button className={`${this.props.updateClassNameHidden} btn-apex`}  onClick={(event)=>{this.props.saveUpdatedComment(this.props.commentId, event)}} >Save</button>
 
                             <button onClick={()=>{this.props.deleteComment(this.props.commentId)}} className={`${this.props.updateClassNameVisible} btn-apex`}>Delete</button>  */}
-
                             <CommentButtons 
                             updateComment={this.props.updateComment}
                             updateClassNameHidden={this.props.updateClassNameHidden}
