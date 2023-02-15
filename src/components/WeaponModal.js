@@ -21,25 +21,25 @@ function WeaponModal(props) {
         </button>
 
         <Modal className='modal' show={show} onHide={handleClose} backdrop="static" keyboard={false}>
-            <Modal.Header closeButton>
+            <Modal.Header className='modal-header' closeButton>
             <Modal.Title>{props.weapon.weaponName} │││ {props.weapon.weaponType}</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className='modal-body'>
             <img className='responsiveImage' src={`http://localhost:5001${props.weapon.weaponImg}`} crossOrigin='anonymous' alt={'Fetching...'}/>
             DPS: {props.weapon.stats.dps} <br/>
             RPM: {props.weapon.stats.rpm} <br/>
             Ammo Type: {props.weapon.stats.ammoType.charAt(0).toUpperCase() + props.weapon.stats.ammoType.slice(1)}
             </Modal.Body>
-            <Modal.Footer>
-            <button className={'btn-apex'} onClick={handleClose}>
-                Close
-            </button>
-            {!props.isFavorite && <button className={'btn-apex'} onClick={() => props.onFavorite(props.weapon)}>
-                Favorite
-            </button>}
-            {props.isFavorite && <button className={'btn-apex'} onClick={() => props.onFavorite(props.weapon)}>
-                Unfavorite
-            </button>}
+            <Modal.Footer className='modal-footer'>
+                <button className={'btn-apex'} onClick={handleClose}>
+                    Close
+                </button>
+                {!props.isFavorite && <button className={'btn-apex'} onClick={() => props.onFavorite(props.weapon)}>
+                    Favorite
+                </button>}
+                {props.isFavorite && <button className={'btn-apex'} onClick={() => props.onFavorite(props.weapon)}>
+                    Unfavorite
+                </button>}
             </Modal.Footer>
         </Modal>
         </>
