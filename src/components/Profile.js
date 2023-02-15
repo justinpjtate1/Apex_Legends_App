@@ -24,7 +24,6 @@ class Profile extends Component {
             maxWidthOrHeight: 200
         }
         imageCompression(image, options).then((response) => {
-            console.log(response)
             let formData = new FormData()
             formData.append('profileImage', response)
             axios({
@@ -36,9 +35,7 @@ class Profile extends Component {
             },
             data: formData
             })
-            .then((response) => {
-                console.log(response)
-            })
+            .then((response) => this.props.getUser())
             .catch((error) => {
                 console.log(error)
             })
@@ -50,45 +47,6 @@ class Profile extends Component {
             image: event.target.files[0]
         })
       }
-
-    // createPatch = (patchImage) => {
-    //     console.log(patchImage)
-    //     axios.patch(`${apiUrl}/api/user/${this.props.user_id}`, {
-    //         user: {
-    //             profileImg: patchImage
-    //         }
-    //     }, {
-    //         headers: {
-    //             Authorization: `Bearer ${localStorage.getItem("jwt")}`
-    //         }
-    //         })
-    // }
-
-    // handleSubmitImage = (e) => {
-    //     e.preventDefault();
-    //     this.createPatch(this.state.image);
-    // }
-
-    // convertToBase64 = (file) => {
-    //     return new Promise((resolve, reject) => {
-    //         const fileReader = new FileReader();
-    //         fileReader.readAsDataURL(file);
-    //         fileReader.onload = () => {
-    //             resolve(fileReader.result);
-    //         };
-    //         fileReader.onerror = (error) => {
-    //             reject(error);
-    //           };
-    //     });
-    // };
-
-    // handleFileUpload = async (e) => {
-    //     const file = e.target.files[0];
-    //     const base64 = await this.convertToBase64(file);
-    //     this.setState({
-    //         image: base64
-    //     })
-    // }
     
     render() {
         const weaponsList = this.props.favoriteWeapons.map((weapon, index) => {
