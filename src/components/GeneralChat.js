@@ -15,7 +15,8 @@ class GeneralChat extends Component {
             allComments: [],
             updateClassNameHidden: 'hidden',
             updateClassNameVisible: '',
-            isDisabled: true
+            isDisabled: true,
+            commentToUpdate: ''
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -37,7 +38,7 @@ class GeneralChat extends Component {
             console.log(response.data)
             this.setState({
                 allComments: response.data.comment,
-                comment: ''
+                comment: '',
             })
         })
         .catch(e => console.log(`error: DISPLAY >>> ${e}`))
@@ -73,9 +74,11 @@ class GeneralChat extends Component {
                 Authorization: `Bearer ${localStorage.getItem("jwt")}`
             },})
             .then((response) => {
+                console.log(response)
             let newComment = {
-                "comment": this.state.comment, 
-                "userId": this.props.user_id
+                "comment": response.data.comment.comment, 
+                "userId": response.data.comment.userId,
+                "_id": response.data.comment._id
             }
             this.setState(prevState =>{ 
                 return{
@@ -84,13 +87,13 @@ class GeneralChat extends Component {
                 })
           })  
           .catch(e => console.log(`error: SAVE >>> ${e}`))
-          console.log(this.state.allComments)
+          
       }
 
 
 
     // DELETE COMMENT
-    deleteComment = (commentId) => {
+    deleteComment = (commentId, index) => {
         console.log('delete ', commentId)
 
         axios.delete(`${apiUrl}/api/generalchat/${commentId}`, 
@@ -99,8 +102,13 @@ class GeneralChat extends Component {
         },
         })
         .then((response) => {
-            console.log('response >>>', response)
-            this.getAllComments()
+            console.log('response >>>', response);
+            const currentComments = this.state.allComments
+            currentComments.splice(index, 1)
+            console.log(currentComments)
+            this.setState({
+                allComments: currentComments
+            })
         })
         .catch(e => console.log(`error: DELETE >>> ${e}`))  
     }  
@@ -114,6 +122,16 @@ class GeneralChat extends Component {
             updateClassNameHidden: '',
             isDisabled: false,
             updateClassNameVisible: 'hidden'
+        })
+    }
+
+    inputChangedHandler = (event, index) => {
+        this.setState({
+            commentToUpdate: this.state.allComments[index].comment
+        }, () => {
+            this.setState({
+                commentToUpdate: event.target.value
+            })
         })
     }
 
@@ -149,7 +167,22 @@ class GeneralChat extends Component {
     
 
     render() {
-
+        const commentsList = this.state.allComments.map((comment, index) => {
+            return <Comment 
+            comment={comment.comment}
+            username={this.props.username}
+            key={index}
+            index={index}
+            deleteComment={this.deleteComment}
+            updateComment={this.updateComment}
+            commentId={comment._id}
+            updateClassNameHidden={this.state.updateClassNameHidden}
+            saveUpdatedComment={this.saveUpdatedComment}
+            isDisabled={this.state.isDisabled}
+            updateClassNameVisible={this.state.updateClassNameVisible}
+            inputChangedHandler={this.inputChangedHandler}
+            />
+        })
         return(
             <div>
                 <h1> General Chat </h1>
@@ -160,19 +193,7 @@ class GeneralChat extends Component {
                         <Button variant="primary" type="submit" onClick={this.handleSubmit}>Submit</Button>
                     </Card.Body>
                 </Card>
-               { this.state.allComments.map((comment, index) => {
-                    return <Comment 
-                        comment={comment.comment}
-                        username={this.props.username}
-                        key={index}
-                        deleteComment={this.deleteComment}
-                        updateComment={this.updateComment}
-                        commentId={comment._id}
-                        updateClassNameHidden={this.state.updateClassNameHidden}
-                        saveUpdatedComment={this.saveUpdatedComment}
-                        isDisabled={this.state.isDisabled}
-                        updateClassNameVisible={this.state.updateClassNameVisible}
-                />}) }
+               {commentsList}
             </div>
         )
     } 
