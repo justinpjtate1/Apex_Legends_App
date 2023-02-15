@@ -79,6 +79,10 @@ background-color: #993339;
   margin: 10px;
 }
 
+#profile-picture {
+  border-radius: 100%
+}
+
 .grid{
   display: grid;
   grid-template-columns: repeat(4, 1fr);

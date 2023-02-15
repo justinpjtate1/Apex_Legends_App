@@ -28,7 +28,8 @@ class App extends Component{
       weapons: [],
       user_id: '',
       username: '',
-      favoriteWeapons: []
+      favoriteWeapons: [],
+      userImage: []
     }
   }
 
@@ -57,8 +58,10 @@ class App extends Component{
     localStorage.removeItem('refreshToken');
     this.setState({
       auth: false,
-    });
-  }
+      user_id: '',
+      username: '',
+      favoriteWeapons: []
+    })
   }
 
    // Check token expiration
@@ -121,6 +124,17 @@ class App extends Component{
     this.setState({
       favoriteWeapons: favorites
     });
+    const userId = localStorage.getItem('user');
+    axios.patch(`${apiUrl}/api/user/${userId}`, {
+      user: {
+        favoriteWeapons: this.state.favoriteWeapons
+      }
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`
+    }
+    })
   }
 
   // PROFILE FUNCTIONS
@@ -135,7 +149,8 @@ class App extends Component{
           this.setState({
             user_id: response.data.user._id,
             username: response.data.user.username,
-            favoriteWeapons: response.data.user.favoriteWeapons
+            favoriteWeapons: response.data.user.favoriteWeapons,
+            userImage: [response.data.user.profileImg]
           })
         })
  }
@@ -154,7 +169,7 @@ class App extends Component{
               {/* Work out how to do the logout in the backend */}
             </nav>
             <Routes>
-              <Route path="/api/user" element={this.state.auth ? (<Profile user_id={this.state.user_id} username={this.state.username} favoriteWeapons={this.state.favoriteWeapons} />) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/user" element={this.state.auth ? (<Profile user_id={this.state.user_id} username={this.state.username} favoriteWeapons={this.state.favoriteWeapons} userImage={this.state.userImage} onFavorite={this.handleFavorite}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat user_id={this.state.user_id} username={this.state.username} />) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/weapons" element={this.state.auth ? (<Weapons onFavorite={this.handleFavorite} favoriteWeapons={this.state.favoriteWeapons} weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/signin" element={!this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
