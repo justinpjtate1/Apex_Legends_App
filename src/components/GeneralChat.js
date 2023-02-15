@@ -178,4 +178,4 @@ class GeneralChat extends Component {
     } 
 }
 
-export default GeneralChat
+export default GeneralChat;
