@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import apiUrl from "../apiConfig";
-import FileBase64 from 'react-file-base64'
 import imageCompression from 'browser-image-compression'
 
 import WeaponSimpleView from "./WeaponSimpleView";
@@ -65,7 +64,7 @@ class Profile extends Component {
                     />
                     <button>Submit</button>
                 </form>
-                {this.props.userImage.map((value, index) => {
+                {this.props.userImage[0] && this.props.userImage.map((value, index) => {
                     const base64String = btoa(
                         String.fromCharCode(...new Uint8Array((value.data.data)))
                     );
