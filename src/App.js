@@ -77,7 +77,6 @@ class App extends Component {
         .then((result) => {
           localStorage.removeItem('jwt');
           localStorage.setItem('jwt', result.accessToken)
-          console.log(localStorage.getItem('jwt'))
         })
     }
   };
