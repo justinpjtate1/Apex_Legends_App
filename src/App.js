@@ -40,11 +40,22 @@ class App extends Component{
     this.setState({
       auth: true
     })
+    setInterval(this.refreshAccessToken, 10000)
   }
 
   userSignedOut = () => {
+    if (localStorage.getItem('user') !== null) {
+    axios.patch(`${apiUrl}/api/logout/${localStorage.getItem('user')}`, {
+      "token": `${localStorage.getItem('refreshToken')}`
+    })
+    .then(response => {
+      console.log(response.data);
+    }).catch(err => {
+      console.log('Not Logged In')
+    })
     localStorage.removeItem("jwt");
     localStorage.removeItem("user");
+    localStorage.removeItem('refreshToken');
     this.setState({
       auth: false,
       user_id: '',
@@ -52,6 +63,23 @@ class App extends Component{
       favoriteWeapons: []
     })
   }
+
+   // Check token expiration
+  refreshAccessToken = () => {
+    const token =localStorage.getItem("refreshToken");
+    console.log(token);
+    if (token !== null && token !== undefined) {
+        axios.post(`${apiUrl}/api/token/${localStorage.getItem('user')}`, {
+          "token": `${localStorage.getItem('refreshToken')}`
+        })
+        .then((response) => {return response.data})
+        .then((result) => {
+          localStorage.removeItem('jwt');
+          localStorage.setItem('jwt', result.accessToken)
+        })
+    }
+  };
+
   // COMPONENT LIFE CYCLE METHODS
   componentDidMount = () => {
     const token = localStorage.getItem("jwt")
@@ -61,7 +89,11 @@ class App extends Component{
     }
 
   }
-
+  componentWillUnmount = () => {
+    if (this.state.auth) {
+      this.refreshAccessToken();
+    }
+  }
   // WEAPONS FUNCTIONS
   getAllWeapons = () => {
     //axios get
@@ -123,40 +155,29 @@ class App extends Component{
         })
  }
 
-// GENERAL CHAT
-  getGeneralChat = () => {
-    axios.get(`${apiUrl}/api/generalchat`, {
-      headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`
-      }
-    })
-    .then((response) => {
-        return response.data
-    }).then((results) => {
-      console.log(results)
-        this.setState({
-          comments: results
-        })
-    })
-  }
-
   render() {
     return(
       <>
           <Router>
-            <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-              <Link to="/api/user">Profile</Link>
-              <Link to="/api/weapons">Weapons</Link>
-              <Link to="/api/generalchat">Chat</Link>
-              <Link to="/api/logout" onClick={this.userSignedOut}>Logout</Link>
-              <Link to="/api/signin">Sign In</Link>
-              <Link to="/api/signup">Sign Up</Link>
+            <nav className='navbar navbar-expand-lg navbar-light apex-nav'>
+              <Link className={'nav-opts'} to="/api/user">Profile</Link>
+              <Link className={'nav-opts'} to="/api/weapons">Weapons</Link>
+              <Link className={'nav-opts'} to="/api/generalchat">Chat</Link>
+              <Link className={'nav-opts'} to="/api/logout" onClick={this.userSignedOut}>Logout</Link>
+              <Link className={'nav-opts'} to="/api/signin">Sign In</Link>
+              <Link className={'nav-opts'} to="/api/signup">Sign Up</Link>
               {/* Work out how to do the logout in the backend */}
             </nav>
             <Routes>
+<<<<<<< HEAD
               <Route path="/api/user" element={this.state.auth ? (<Profile user_id={this.state.user_id} username={this.state.username} favoriteWeapons={this.state.favoriteWeapons} userImage={this.state.userImage} onFavorite={this.handleFavorite} getUser={this.getUser}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/weapons" element={this.state.auth ? (<Weapons onFavorite={this.handleFavorite} weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat generalChat={this.getGeneralChat} comments={this.state.comments}/>) : (<Navigate replace to = {"/"} />)} />
+=======
+              <Route path="/api/user" element={this.state.auth ? (<Profile user_id={this.state.user_id} username={this.state.username} favoriteWeapons={this.state.favoriteWeapons} userImage={this.state.userImage} onFavorite={this.handleFavorite}/>) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat user_id={this.state.user_id} username={this.state.username} />) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/weapons" element={this.state.auth ? (<Weapons onFavorite={this.handleFavorite} favoriteWeapons={this.state.favoriteWeapons} weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
+>>>>>>> c5154755abfe7d3830a60bc4edbd109f6d995908
               <Route path="/api/signin" element={!this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
               <Route path="/api/signup" element={!this.state.auth ? (<Signup />) : (<Navigate replace to = {"/"} />)}/>
               <Route path="/" element={!this.state.auth ? (<h1>Welcome to this Apex Legends App!</h1>) : (<h1>We will set this to be the page name</h1>)}/>
