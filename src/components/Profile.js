@@ -62,9 +62,9 @@ class Profile extends Component {
                         accept=".jpeg, .png, .jpg"
                         onChange={this.handleFileSelect}
                     />
-                    <button>Submit</button>
+                    {this.state.image && <button>Submit</button>}
                 </form>
-                {this.props.userImage[0] && this.props.userImage.map((value, index) => {
+                {this.props.userImage[0] && this.props.userImage[0].data && this.props.userImage.map((value, index) => {
                     const base64String = btoa(
                         String.fromCharCode(...new Uint8Array((value.data.data)))
                     );

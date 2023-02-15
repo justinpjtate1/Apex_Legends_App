@@ -12,12 +12,12 @@ class Comment extends Component{
         }
     }
 
-    inputChangedHandler = (event) => {
-        this.setState({
-            comment: event.target.value
-        })
-        // May be call for search result
-    }
+    // inputChangedHandler = (event) => {
+    //     this.setState({
+    //         comment: event.target.value
+    //     })
+    //     // May be call for search result
+    // }
 
     render() {
         return(
@@ -27,15 +27,15 @@ class Comment extends Component{
 
                         <Form>
                             <Form.Control type="text" 
-                            value={this.state.comment} 
+                            value={this.props.comment} 
                             disabled={this.props.isDisabled}
-                            onChange={(e)=>{this.inputChangedHandler(e)}}/>
+                            onChange={(e)=>{this.props.inputChangedHandler(e, this.props.index)}}/>
 
                             <Button variant="primary" onClick={this.props.updateComment} className={`${this.props.updateClassNameVisible}`} >Update</Button>
 
                             <Button variant="primary"  className={`${this.props.updateClassNameHidden}`}  onClick={(event)=>{this.props.saveUpdatedComment(this.props.commentId, event)}} >Save</Button>
 
-                            <Button variant="primary" onClick={()=>{this.props.deleteComment( this.props.commentId)}} className={`${this.props.updateClassNameVisible}`}>Delete</Button>
+                            <Button variant="primary" onClick={()=> this.props.deleteComment(this.props.commentId, this.props.index)} className={`${this.props.updateClassNameVisible}`}>Delete</Button>
                         </Form>
                     </Form.Group>
             </div>

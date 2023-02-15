@@ -65,7 +65,6 @@ class App extends Component {
     }
   }
 
-
    // Check token expiration
   refreshAccessToken = () => {
     const token =localStorage.getItem("refreshToken");
