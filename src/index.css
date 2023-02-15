@@ -94,10 +94,6 @@ padding: 0px;
   border-width: 0px;
 }
 
-#profile-picture {
-  border-radius: 100%
-}
-
 .grid{
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -123,10 +119,3 @@ padding: 0px;
   }
 }
 
-button.hidden {
-  display: none;
-}
-
-button.visible {
-  display: '';
-}
