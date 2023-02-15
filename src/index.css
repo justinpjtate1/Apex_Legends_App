@@ -16,17 +16,28 @@ code {
   width: auto;
   margin: 30px auto;
   display: inline-block;
+  color: #232323;
+}
+.modal-body,.modal-header,.modal-footer {
+  background-color: #414141;
+  color: #FFF0EA;
 }
 
+.page-header {
+ color: #FFF0EA;
+}
+.page {
+  background-color: #414141 !important;
+}
 .responsiveImage {
   display: block;
   width: 100%;
   max-height: 100%
 }
 .btn-apex {
-  color: #993339;
-  background-color: #ffffff;
-  border: 1px solid #993339;
+  color: #9A4147;
+  background-color: #FFF0EA;
+  border: 1px solid #9A4147;
   border-radius: 6px;
   padding: 10px;
   margin: 10px;
@@ -71,12 +82,16 @@ code {
   text-align: center;
 }
 .apex-nav {
-background-color: #993339;
+background-color: #232323;
+margin: 0px auto;
+padding: 0px;
 }
 .nav-opts {
-  color: #E6E3DC;
+  color: #FFF0EA;
   text-decoration: none;
-  margin: 10px;
+  margin: 0px 10px 0px 10px;
+  padding: 0px 0px 0px 0px;
+  border-width: 0px;
 }
 
 #profile-picture {

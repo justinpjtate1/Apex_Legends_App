@@ -14,8 +14,8 @@ class Weapons extends Component {
             return <WeaponSimpleView isFavorite={this.props.favoriteWeapons.includes(weapon)} onFavorite={this.props.onFavorite} key={index} weapon={weapon} />;
         })
         return(
-            <div>
-            <h1 className={'PageHeader'}> Weapons </h1>
+            <div className='page'>
+            <h1 className={'page-header'}> Weapons </h1>
             <div className={'grid'}>
             {weaponsList}
             </div>

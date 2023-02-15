@@ -67,7 +67,6 @@ class App extends Component{
    // Check token expiration
   refreshAccessToken = () => {
     const token =localStorage.getItem("refreshToken");
-    console.log(token);
     if (token !== null && token !== undefined) {
         axios.post(`${apiUrl}/api/token/${localStorage.getItem('user')}`, {
           "token": `${localStorage.getItem('refreshToken')}`
@@ -76,6 +75,7 @@ class App extends Component{
         .then((result) => {
           localStorage.removeItem('jwt');
           localStorage.setItem('jwt', result.accessToken)
+          console.log(localStorage.getItem('jwt'))
         })
     }
   };
@@ -86,6 +86,9 @@ class App extends Component{
     if(token !== null) {
       this.userSignedIn()
       this.getAllWeapons()
+    }
+    if (this.state.auth) {
+      setInterval(this.refreshAccessToken, 10000)
     }
 
   }
@@ -163,7 +166,7 @@ class App extends Component{
               <Link className={'nav-opts'} to="/api/user">Profile</Link>
               <Link className={'nav-opts'} to="/api/weapons">Weapons</Link>
               <Link className={'nav-opts'} to="/api/generalchat">Chat</Link>
-              <Link className={'nav-opts'} to="/api/logout" onClick={this.userSignedOut}>Logout</Link>
+              <Link className={'nav-opts'} to="/" onClick={this.userSignedOut}>Logout</Link>
               <Link className={'nav-opts'} to="/api/signin">Sign In</Link>
               <Link className={'nav-opts'} to="/api/signup">Sign Up</Link>
               {/* Work out how to do the logout in the backend */}
@@ -174,7 +177,7 @@ class App extends Component{
               <Route path="/api/weapons" element={this.state.auth ? (<Weapons onFavorite={this.handleFavorite} favoriteWeapons={this.state.favoriteWeapons} weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/signin" element={!this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
               <Route path="/api/signup" element={!this.state.auth ? (<Signup />) : (<Navigate replace to = {"/"} />)}/>
-              <Route path="/" element={!this.state.auth ? (<h1>Welcome to this Apex Legends App!</h1>) : (<h1>We will set this to be the page name</h1>)}/>
+              <Route path="/" element={!this.state.auth ? (<div><h1>Welcome to this Apex Legends App!</h1><p>View and favorite any weapon in Apex. Chat with other users from all over the world in the general chat. Just sign up!</p></div>) : (<h1>We will set this to be the page name</h1>)}/>
             </Routes>
           </Router>
         
