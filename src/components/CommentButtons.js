@@ -8,13 +8,13 @@ class CommentButtons extends Component{
     render() {
         return(
             <>
-                    <Button variant="primary"  
-                    className={`${this.props.updateClassNameHidden}`}  
-                    onClick={(event)=>{this.props.saveUpdatedComment(this.props.commentId, event)}} >Save</Button>
+                    <button
+                    className={`${this.props.updateClassNameHidden} btn-apex`}  
+                    onClick={(event)=>{this.props.saveUpdatedComment(this.props.commentId, event)}} >Save</button>
 
-                    <Button variant="primary" onClick={this.props.updateComment} className={`${this.props.updateClassNameVisible}`} >Update</Button>
+                    <button onClick={this.props.updateComment} className={`${this.props.updateClassNameVisible} btn-apex`} >Update</button>
 
-                    <Button variant="primary" onClick={()=>{this.props.deleteComment(this.props.commentId)}} className={`${this.props.updateClassNameVisible}`}>Delete</Button>
+                    <button onClick={()=>{this.props.deleteComment(this.props.commentId)}} className={`${this.props.updateClassNameVisible} btn-apex`}>Delete</button>
             </>
         )
     }
