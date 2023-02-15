@@ -83,7 +83,6 @@ class App extends Component {
   // COMPONENT LIFE CYCLE METHODS
   componentDidMount = () => {
     const token = localStorage.getItem("jwt")
-    console.log(token);
     if(token !== null) {
       this.userSignedIn()
       this.getAllWeapons()

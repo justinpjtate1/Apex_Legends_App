@@ -7,7 +7,6 @@ class WeaponSimpleView extends Component {
 
     render() {
         const bool = this.props.isFavorite
-        console.log(bool)
         return(
             <>
             <div className={`grid-item ${this.props.weapon.stats.ammoType}`}>
