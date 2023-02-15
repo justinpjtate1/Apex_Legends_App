@@ -13,9 +13,6 @@ class Profile extends Component {
             image: ''
         }
     }
-    componentDidMount = () => {
-
-    }
     handleSubmit = (event) => {
         event.preventDefault()
 
