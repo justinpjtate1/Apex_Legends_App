@@ -64,7 +64,6 @@ class App extends Component {
       })
     }
   }
-}
 
    // Check token expiration
   refreshAccessToken = () => {
