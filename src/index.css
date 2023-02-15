@@ -25,6 +25,8 @@ code {
 
 .page-header {
  color: #FFF0EA;
+ font-family: 'Exo 2', sans-serif;
+ font-weight:bold;
 }
 .page {
   background-color: #414141 !important;
@@ -41,10 +43,11 @@ code {
   border-radius: 6px;
   padding: 10px;
   margin: 10px;
+  font-family: 'Exo 2', sans-serif;
+  font-weight:400;
 }
 .btn-apex:hover,
 .btn-apex:active,
-.btn-apex:focus,
 .btn-apex.active {
   /* let's darken #004E64 a bit for hover effect */
   background: #993339;
@@ -85,6 +88,14 @@ code {
 background-color: #232323;
 margin: 0px auto;
 padding: 0px;
+font-family: 'Exo 2', sans-serif;
+font-weight:200;
+}
+.apex-input {
+  font-family: 'Exo 2', sans-serif;
+  font-weight:200;
+  color: #FFF0EA;
+  margin: 20px;
 }
 .nav-opts {
   color: #FFF0EA;

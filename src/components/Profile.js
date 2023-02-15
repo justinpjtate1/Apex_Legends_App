@@ -13,7 +13,6 @@ class Profile extends Component {
             image: ''
         }
     }
-
     handleSubmit = (event) => {
         event.preventDefault()
 
@@ -49,22 +48,22 @@ class Profile extends Component {
     
     render() {
         const weaponsList = this.props.favoriteWeapons.map((weapon, index) => {
-            return <WeaponSimpleView onFavorite={this.props.onFavorite} key={index} weapon={weapon} />;
+            return <WeaponSimpleView isFavorite={this.props.favoriteWeapons.includes(weapon)} onFavorite={this.props.onFavorite} key={index} weapon={weapon} />;
         })
         return(
-            <div>
-                <h1>Profile</h1>
+            <div className='page'>
+                <h1 className={'page-header'} >Profile</h1>
                 <form onSubmit={this.handleSubmit}>
-                    <input 
+                    <input  className={'apex-input'}
                         type="file"
                         label="Image"
                         name="image"
                         accept=".jpeg, .png, .jpg"
                         onChange={this.handleFileSelect}
                     />
-                    <button>Submit</button>
+                    {this.state.image && <button className="btn-apex" >Submit</button>}
                 </form>
-                {this.props.userImage[0] && this.props.userImage.map((value, index) => {
+                {this.props.userImage[0] && this.props.userImage[0].data && this.props.userImage.map((value, index) => {
                     const base64String = btoa(
                         String.fromCharCode(...new Uint8Array((value.data.data)))
                     );
@@ -73,9 +72,11 @@ class Profile extends Component {
                 {/* <FileBase64 multiple={ false } onDone={({base64}) => this.setState({
                     image: base64
                 })}/> */}
-                <h3>{this.props.username}</h3>
-                <h2>Favorite Weapons</h2>
-                {weaponsList}
+                <h2 className={'page-header'} >{this.props.username}</h2>
+                <h3 className={'page-header'} >Favorite Weapons</h3>
+                <div className={'grid'}>
+                    {weaponsList}
+                </div>
             </div>
         )
     }

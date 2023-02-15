@@ -14,11 +14,10 @@ class Comment extends Component{
     // }
 
     // inputChangedHandler = (event) => {
-
-    //         this.setState({
+    //     this.setState({
     //         comment: event.target.value
     //     })
-
+    //     // May be call for search result
     // }
 
     render() {
@@ -32,7 +31,7 @@ class Comment extends Component{
                             <Form.Control type="text" 
                             value={this.props.comment} 
                             disabled={this.props.isDisabled}
-                            onChange={(e)=>{this.inputChangedHandler(e)}}/>
+                            onChange={(e)=>{this.props.inputChangedHandler(e, this.props.index)}}/>
 
                             <Button variant="primary" onClick={this.props.updateComment} className={`${this.props.updateClassNameVisible}`} >Update</Button>
 
