@@ -30,8 +30,9 @@ class Signin extends Component {
                 "password": this.state.password
             })
             .then((response) => {
-                localStorage.setItem("jwt", response.data.token);
-                localStorage.setItem("user", response.data.user)
+                localStorage.setItem("jwt", response.data.accessToken);
+                localStorage.setItem("user", response.data.user);
+                localStorage.setItem("refreshToken", response.data.refreshToken);
             })
             .then((response) => {
                 this.props.userSignedIn()
@@ -50,7 +51,7 @@ class Signin extends Component {
             <input type="text" id="signup-username" onChange={this.onUsernameChange}></input>
             <label>Password</label>
             <input type="text" id="signup-password" onChange={this.onPasswordChange}></input>
-            <button onClick={this.handleSigninClick}>Sign In!</button>
+            <button className={'btn-apex'} onClick={this.handleSigninClick}>Sign In!</button>
         </div>
         )
     }
