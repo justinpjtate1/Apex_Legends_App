@@ -120,7 +120,7 @@ class App extends Component {
     const weaponChoice = weapon;
     const weaponIndex = this.state.favoriteWeapons.indexOf(weaponChoice);
     let favorites = this.state.favoriteWeapons;
-    if (weaponIndex === -1){
+    if (!favorites.includes(weapon)){
       favorites.push(weaponChoice);
     } else {
       favorites.splice(weaponIndex, 1);
