@@ -177,6 +177,3 @@ class GeneralChat extends Component {
         )
     } 
 }
-
-
-export default GeneralChat
