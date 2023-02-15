@@ -12,7 +12,6 @@ class GeneralChat extends Component {
             comment: '',
             commentId: '',
             updateComment: '',
-            allComments: [],
             updateClassNameHidden: 'hidden',
             updateClassNameVisible: '',
             isDisabled: true
@@ -25,8 +24,8 @@ class GeneralChat extends Component {
     }
 
 
-    // GENERAL CHAT GET
-    getAllComments = () => {
+    // DISPLAY ALL COMMENTS
+    componentDidMount = () => {
         axios.get(`${apiUrl}/api/generalchat`, 
         {
         headers: {
@@ -34,23 +33,10 @@ class GeneralChat extends Component {
         }
         })
         .then((response) => {
-            console.log(response.data)
-            this.setState({
-                allComments: response.data.comment,
-                comment: ''
-            })
+            this.props.setComments(response.data.comment)
         })
         .catch(e => console.log(`error: DISPLAY >>> ${e}`))
     }
-
-
-
-    // DISPLAY ALL COMMENTS
-    componentDidMount = () => {
-        this.getAllComments()
-    }
-
-
 
     // SAVE INPUT
     handleChange = (event) => {
@@ -58,8 +44,6 @@ class GeneralChat extends Component {
             comment: event.target.value
         })
         }
-
-
 
     // SAVING COMMENTS TO DATABASE
     handleSubmit = (event) => {
@@ -73,34 +57,33 @@ class GeneralChat extends Component {
                 Authorization: `Bearer ${localStorage.getItem("jwt")}`
             },})
             .then((response) => {
+                console.log('>>>> response ', response)
             let newComment = {
                 "comment": this.state.comment, 
                 "userId": this.props.user_id
             }
-            this.setState(prevState =>{ 
-                return{
-                    allComments: [...prevState.allComments, newComment]
-                }
-                })
+            let newAllCommentsSave = this.props.allComments.concat([newComment])
+            this.props.setComments(newAllCommentsSave)
           })  
           .catch(e => console.log(`error: SAVE >>> ${e}`))
-          console.log(this.state.allComments)
       }
 
 
 
     // DELETE COMMENT
     deleteComment = (commentId) => {
-        console.log('delete ', commentId)
-
+        console.log(' delete ', commentId);
         axios.delete(`${apiUrl}/api/generalchat/${commentId}`, 
         {headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
         },
         })
         .then((response) => {
-            console.log('response >>>', response)
-            this.getAllComments()
+            let newAllCommentsDelete =  this.props.allComments.filter((comment) => {
+                console.log('comment id', comment._id)
+                return comment._id !== commentId
+            })
+            this.props.setComments(newAllCommentsDelete)
         })
         .catch(e => console.log(`error: DELETE >>> ${e}`))  
     }  
@@ -122,7 +105,7 @@ class GeneralChat extends Component {
     // SAVE UPDATED COMMENT
     saveUpdatedComment = (commentId, event) => {
         console.log('>> event ', event);
-        axios.put(`/api/generalchat/${commentId}`, 
+        axios.put(`${apiUrl}/api/generalchat/${commentId}`, 
         {comment: {
             _id: commentId,
             userId: this.props.user_id,
@@ -160,7 +143,8 @@ class GeneralChat extends Component {
                         <Button variant="primary" type="submit" onClick={this.handleSubmit}>Submit</Button>
                     </Card.Body>
                 </Card>
-               { this.state.allComments.map((comment, index) => {
+               { this.props.allComments.map((comment, index) => {
+
                     return <Comment 
                         comment={comment.comment}
                         username={this.props.username}
@@ -172,6 +156,7 @@ class GeneralChat extends Component {
                         saveUpdatedComment={this.saveUpdatedComment}
                         isDisabled={this.state.isDisabled}
                         updateClassNameVisible={this.state.updateClassNameVisible}
+                        user_id={this.props.user_id}
                 />}) }
             </div>
         )
