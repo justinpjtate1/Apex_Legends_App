@@ -119,3 +119,10 @@ padding: 0px;
   }
 }
 
+button.hidden {
+  display: none;
+}
+
+button.visible {
+  display: '';
+}
