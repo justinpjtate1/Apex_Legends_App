@@ -13,7 +13,6 @@ class Profile extends Component {
             image: ''
         }
     }
-
     handleSubmit = (event) => {
         event.preventDefault()
 
@@ -49,7 +48,7 @@ class Profile extends Component {
     
     render() {
         const weaponsList = this.props.favoriteWeapons.map((weapon, index) => {
-            return <WeaponSimpleView onFavorite={this.props.onFavorite} key={index} weapon={weapon} />;
+            return <WeaponSimpleView isFavorite={this.props.favoriteWeapons.includes(weapon)} onFavorite={this.props.onFavorite} key={index} weapon={weapon} />;
         })
         return(
             <div>
