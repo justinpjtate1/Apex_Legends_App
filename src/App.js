@@ -45,23 +45,24 @@ class App extends Component{
 
   userSignedOut = () => {
     if (localStorage.getItem('user') !== null) {
-    axios.patch(`${apiUrl}/api/logout/${localStorage.getItem('user')}`, {
-      "token": `${localStorage.getItem('refreshToken')}`
-    })
-    .then(response => {
-      console.log(response.data);
-    }).catch(err => {
-      console.log('Not Logged In')
-    })
-    localStorage.removeItem("jwt");
-    localStorage.removeItem("user");
-    localStorage.removeItem('refreshToken');
-    this.setState({
-      auth: false,
-      user_id: '',
-      username: '',
-      favoriteWeapons: []
-    })
+      axios.patch(`${apiUrl}/api/logout/${localStorage.getItem('user')}`, {
+        "token": `${localStorage.getItem('refreshToken')}`
+      })
+      .then(response => {
+        console.log(response.data);
+      }).catch(err => {
+        console.log('Not Logged In')
+      })
+      localStorage.removeItem("jwt");
+      localStorage.removeItem("user");
+      localStorage.removeItem('refreshToken');
+      this.setState({
+        auth: false,
+        user_id: '',
+        username: '',
+        favoriteWeapons: []
+      })
+    }
   }
 
    // Check token expiration
@@ -156,7 +157,7 @@ class App extends Component{
             userImage: [response.data.user.profileImg]
           })
         })
- }
+  }  
 
   render() {
     return(
