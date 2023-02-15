@@ -104,3 +104,10 @@ background-color: #993339;
   }
 }
 
+button.hidden {
+  display: none;
+}
+
+button.visible {
+  display: '';
+}
