@@ -31,11 +31,11 @@ class Comment extends Component{
                             disabled={this.props.isDisabled}
                             onChange={(e)=>{this.inputChangedHandler(e)}}/>
 
-                            <Button variant="primary" data-commentid={this.props.dataattribute} onClick={this.props.updateComment} className={`${this.props.updateClassNameVisible}`} >Update</Button>
+                            <Button variant="primary" onClick={this.props.updateComment} className={`${this.props.updateClassNameVisible}`} >Update</Button>
 
-                            <Button variant="primary"  className={`${this.props.updateClassNameHidden}`} data-commentid={this.props.dataattribute} onClick={this.props.saveUpdatedComment} >Save</Button>
+                            <Button variant="primary"  className={`${this.props.updateClassNameHidden}`}  onClick={(event)=>{this.props.saveUpdatedComment(this.props.commentId, event)}} >Save</Button>
 
-                            <Button variant="primary" data-commentid={this.props.dataattribute} onClick={this.props.deleteComment} className={`${this.props.updateClassNameVisible}`}>Delete</Button>
+                            <Button variant="primary" onClick={()=>{this.props.deleteComment( this.props.commentId)}} className={`${this.props.updateClassNameVisible}`}>Delete</Button>
                         </Form>
                     </Form.Group>
             </div>

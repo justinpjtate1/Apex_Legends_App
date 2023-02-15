@@ -21,7 +21,7 @@ class GeneralChat extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
         this.deleteComment = this.deleteComment.bind(this)
         this.updateComment = this.updateComment.bind(this)
-        this.getCommentId = this.getCommentId.bind(this)
+
     }
 
 
@@ -34,6 +34,7 @@ class GeneralChat extends Component {
         }
         })
         .then((response) => {
+            console.log(response.data)
             this.setState({
                 allComments: response.data.comment,
                 comment: ''
@@ -43,18 +44,21 @@ class GeneralChat extends Component {
     }
 
 
+
     // DISPLAY ALL COMMENTS
     componentDidMount = () => {
         this.getAllComments()
     }
 
 
+
     // SAVE INPUT
     handleChange = (event) => {
-    this.setState({
-        comment: event.target.value
-    })
+        this.setState({
+            comment: event.target.value
+        })
         }
+
 
 
     // SAVING COMMENTS TO DATABASE
@@ -84,37 +88,12 @@ class GeneralChat extends Component {
       }
 
 
-    // GETTING COMMENT ID
-    getCommentId = (event) => {
-        console.log('get comment id')
-        axios.get(`${apiUrl}/api/generalchat/`, 
-            {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("jwt")}`
-            }
-            })
-            .then((response) => {
-                console.log(response)
-                this.setState({
-                    commentId: response.data.comment._id
-                })
-            })
-            .catch(e => console.log(`error: COMMENT ID >>> ${e}`))
-            console.log(this.state.commentId)
-    }
 
     // DELETE COMMENT
-    deleteComment = (event, param) => {
-        event.preventDefault();
-        console.log('event >>> ', event.target)
-        console.log("comment id >>>", event.target.getAttribute("data-commentid"))
+    deleteComment = (commentId) => {
+        console.log('delete ', commentId)
 
-        // on page load, save the id into data attribute
-        let clickedCommentId =  event.target.getAttribute("data-commentid");
-
-        // const allComments = 
-
-        axios.delete(`${apiUrl}/api/generalchat/${clickedCommentId}`, 
+        axios.delete(`${apiUrl}/api/generalchat/${commentId}`, 
         {headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
         },
@@ -124,17 +103,13 @@ class GeneralChat extends Component {
             this.getAllComments()
         })
         .catch(e => console.log(`error: DELETE >>> ${e}`))  
-
-        // const comments = this.state.allComments.filter(item => item.id !== id)
-        // this.setState({allComments})
-
     }  
+
 
 
     // UPDATE COMMENT
     updateComment = (event) => {
-        event.preventDefault();
-
+        event.preventDefault()
         this.setState({
             updateClassNameHidden: '',
             isDisabled: false,
@@ -142,23 +117,19 @@ class GeneralChat extends Component {
         })
     }
 
+
         
     // SAVE UPDATED COMMENT
-    saveUpdatedComment = (event) => {
-        event.preventDefault()
-        console.log(event)
-        // getting the input value
-        console.log('value >>> ', event.target.parentElement[0].value)
-
-        let clickedCommentId =  event.target.getAttribute("data-commentid")
-
-        axios.put(`/api/generalchat/${clickedCommentId}`, 
-        {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`
-        }, comment: {
+    saveUpdatedComment = (commentId, event) => {
+        console.log('>> event ', event);
+        axios.put(`/api/generalchat/${commentId}`, 
+        {comment: {
+            _id: commentId,
             userId: this.props.user_id,
             comment: event.target.parentElement[0].value
+        }},
+        {headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`
         }}
         )
         .then((response) => {
@@ -167,11 +138,13 @@ class GeneralChat extends Component {
         })  
         .catch(e => console.log(`error: UPDATE >>> ${e}`)) 
 
-    this.setState({
+
+        this.setState({
         updateClassNameHidden: 'hidden',
         isDisabled: true,
         updateClassNameVisible: ''
-    })
+        })
+        
  } 
     
 
@@ -194,7 +167,7 @@ class GeneralChat extends Component {
                         key={index}
                         deleteComment={this.deleteComment}
                         updateComment={this.updateComment}
-                        dataattribute={comment._id}
+                        commentId={comment._id}
                         updateClassNameHidden={this.state.updateClassNameHidden}
                         saveUpdatedComment={this.saveUpdatedComment}
                         isDisabled={this.state.isDisabled}
