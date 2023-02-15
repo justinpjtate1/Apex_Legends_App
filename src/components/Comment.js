@@ -25,7 +25,8 @@ class Comment extends Component{
         return(
             <div>
                     <Form.Group>
-                        <Form.Label>{this.props.username}</Form.Label>
+                        {!this.props.currentUsername && <Form.Label>{this.props.databaseUsername}</Form.Label>}
+                        {this.props.currentUsername && <Form.Label>{this.props.currentUsername}</Form.Label>}
 
                         <Form>
                             <Form.Control type="text" 
