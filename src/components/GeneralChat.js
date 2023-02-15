@@ -27,10 +27,8 @@ class GeneralChat extends Component {
     // DISPLAY ALL COMMENTS
     componentDidMount = () => {
         axios.get(`${apiUrl}/api/generalchat`, 
-        {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`
-        }
+        {headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`}
         })
         .then((response) => {
             this.props.setComments(response.data.comment)
@@ -38,12 +36,14 @@ class GeneralChat extends Component {
         .catch(e => console.log(`error: DISPLAY >>> ${e}`))
     }
 
+
     // SAVE INPUT
     handleChange = (event) => {
         this.setState({
             comment: event.target.value
         })
         }
+
 
     // SAVING COMMENTS TO DATABASE
     handleSubmit = (event) => {
@@ -89,7 +89,6 @@ class GeneralChat extends Component {
     }  
 
 
-
     // UPDATE COMMENT
     updateComment = (event) => {
         event.preventDefault()
@@ -101,7 +100,6 @@ class GeneralChat extends Component {
     }
 
 
-        
     // SAVE UPDATED COMMENT
     saveUpdatedComment = (commentId, event) => {
         console.log('>> event ', event);
