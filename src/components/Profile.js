@@ -13,7 +13,6 @@ class Profile extends Component {
             image: ''
         }
     }
-
     handleSubmit = (event) => {
         event.preventDefault()
 
@@ -49,7 +48,7 @@ class Profile extends Component {
     
     render() {
         const weaponsList = this.props.favoriteWeapons.map((weapon, index) => {
-            return <WeaponSimpleView onFavorite={this.props.onFavorite} key={index} weapon={weapon} />;
+            return <WeaponSimpleView isFavorite={this.props.favoriteWeapons.includes(weapon)} onFavorite={this.props.onFavorite} key={index} weapon={weapon} />;
         })
         return(
             <div>
@@ -62,9 +61,9 @@ class Profile extends Component {
                         accept=".jpeg, .png, .jpg"
                         onChange={this.handleFileSelect}
                     />
-                    <button>Submit</button>
+                    {this.state.image && <button>Submit</button>}
                 </form>
-                {this.props.userImage[0] && this.props.userImage.map((value, index) => {
+                {this.props.userImage[0] && this.props.userImage[0].data && this.props.userImage.map((value, index) => {
                     const base64String = btoa(
                         String.fromCharCode(...new Uint8Array((value.data.data)))
                     );

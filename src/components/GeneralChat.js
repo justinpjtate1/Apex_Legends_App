@@ -14,7 +14,8 @@ class GeneralChat extends Component {
             updateComment: '',
             updateClassNameHidden: 'hidden',
             updateClassNameVisible: '',
-            isDisabled: true
+            isDisabled: true,
+            commentToUpdate: ''
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -59,8 +60,9 @@ class GeneralChat extends Component {
             .then((response) => {
                 console.log('>>>> response ', response)
             let newComment = {
-                "comment": this.state.comment, 
-                "userId": this.props.user_id
+                "comment": response.data.comment.comment, 
+                "userId": response.data.comment.userId,
+                "_id": response.data.comment._id
             }
             let newAllCommentsSave = this.props.allComments.concat([newComment])
             this.props.setComments(newAllCommentsSave)
@@ -99,6 +101,16 @@ class GeneralChat extends Component {
         })
     }
 
+    inputChangedHandler = (event, index) => {
+        this.setState({
+            commentToUpdate: this.state.allComments[index].comment
+        }, () => {
+            this.setState({
+                commentToUpdate: event.target.value
+            })
+        })
+    }
+
 
     // SAVE UPDATED COMMENT
     saveUpdatedComment = (commentId, event) => {
@@ -130,7 +142,22 @@ class GeneralChat extends Component {
     
 
     render() {
-
+        const commentsList = this.state.allComments.map((comment, index) => {
+            return <Comment 
+            comment={comment.comment}
+            username={this.props.username}
+            key={index}
+            index={index}
+            deleteComment={this.deleteComment}
+            updateComment={this.updateComment}
+            commentId={comment._id}
+            updateClassNameHidden={this.state.updateClassNameHidden}
+            saveUpdatedComment={this.saveUpdatedComment}
+            isDisabled={this.state.isDisabled}
+            updateClassNameVisible={this.state.updateClassNameVisible}
+            inputChangedHandler={this.inputChangedHandler}
+            />
+        })
         return(
             <div>
                 <h1> General Chat </h1>

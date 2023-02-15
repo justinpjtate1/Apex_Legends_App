@@ -66,7 +66,6 @@ class App extends Component {
     }
   }
 
-
    // Check token expiration
   refreshAccessToken = () => {
     const token =localStorage.getItem("refreshToken");
@@ -88,11 +87,10 @@ class App extends Component {
     if(token !== null) {
       this.userSignedIn()
       this.getAllWeapons()
+      this.setState({
+        auth: true
+      });
     }
-    if (this.state.auth) {
-      setInterval(this.refreshAccessToken, 10000)
-    }
-
   }
   componentWillUnmount = () => {
     if (this.state.auth) {
@@ -115,14 +113,27 @@ class App extends Component {
         })
     })
   }
-  
+  checkFavorites = (weaponID) => {
+    const favorites = this.state.favoriteWeapons
+    for (let i=0;i<favorites.length;i++) {
+      if (favorites[i]._id === weaponID) {
+        return true
+      }
+    }
+    return false;
+  }
   handleFavorite = (weapon) => {
-    console.log(weapon);
-    const weaponChoice = weapon;
-    const weaponIndex = this.state.favoriteWeapons.indexOf(weaponChoice);
+    const weaponID = weapon._id;
+    const weaponIndex = this.state.favoriteWeapons.indexOf(weapon);
     let favorites = this.state.favoriteWeapons;
-    if (weaponIndex === -1){
-      favorites.push(weaponChoice);
+    let idPresent = false;
+    favorites.forEach((item, index) => {
+      if (item._id === weaponID) {
+        idPresent = true;
+      }
+    })
+    if (idPresent === false){
+      favorites.push(weapon);
     } else {
       favorites.splice(weaponIndex, 1);
     }
@@ -187,7 +198,7 @@ setComments = (allComments) => {
             <Routes>
               <Route path="/api/user" element={this.state.auth ? (<Profile user_id={this.state.user_id} username={this.state.username} favoriteWeapons={this.state.favoriteWeapons} userImage={this.state.userImage} onFavorite={this.handleFavorite} getUser={this.getUser}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat user_id={this.state.user_id} username={this.state.username} setComments={this.setComments} allComments={this.state.allComments} />) : (<Navigate replace to = {"/"} />)} />
-              <Route path="/api/weapons" element={this.state.auth ? (<Weapons onFavorite={this.handleFavorite} favoriteWeapons={this.state.favoriteWeapons} weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/weapons" element={this.state.auth ? (<Weapons onFavorite={this.handleFavorite} isFavorite={this.checkFavorites} favoriteWeapons={this.state.favoriteWeapons} weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/signin" element={!this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
               <Route path="/api/signup" element={!this.state.auth ? (<Signup />) : (<Navigate replace to = {"/"} />)}/>
               <Route path="/" element={!this.state.auth ? (<div><h1>Welcome to this Apex Legends App!</h1><p>View and favorite any weapon in Apex. Chat with other users from all over the world in the general chat. Just sign up!</p></div>) : (<h1>We will set this to be the page name</h1>)}/>
