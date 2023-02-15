@@ -37,7 +37,7 @@ class Comment extends Component{
 
                             <button className={`${this.props.updateClassNameHidden} btn-apex`}  onClick={(event)=>{this.props.saveUpdatedComment(this.props.commentId, event)}} >Save</button>
 
-                            <button onClick={()=>{this.props.deleteComment(this.props.commentId)}} className={`${this.props.updateClassNameVisible} btn-apex`}>Delete</button>  */}
+                            <button onClick={()=>{this.props.deleteComment(this.props.commentId)}} className={`${this.props.updateClassNameVisible} btn-apex`}>Delete</button>
                             <CommentButtons 
                             updateComment={this.props.updateComment}
                             updateClassNameHidden={this.props.updateClassNameHidden}
