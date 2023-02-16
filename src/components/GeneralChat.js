@@ -45,10 +45,10 @@ class GeneralChat extends Component {
             .then((response) => {
                 console.log('>>>> response ', response)
             let newComment = {
-                "comment": comment, 
-                "userId": this.props.user_id,
-                "username": this.props.username,
-                "_id": response.data.comment._id
+                "comment": response.data.comment.comment, 
+                "userId": response.data.comment.userId,
+                "_id": response.data.comment._id,
+                "username": this.props.username
             }
             let newAllCommentsSave = this.props.allComments.concat([newComment])
             this.props.setComments(newAllCommentsSave)
@@ -58,7 +58,9 @@ class GeneralChat extends Component {
       }
 
     // DELETE COMMENT
-    deleteComment = (commentId) => {
+    deleteComment = (e, commentId) => {
+        e.preventDefault();
+        console.log(' delete ', commentId);
         axios.delete(`${apiUrl}/api/generalchat/${commentId}`, 
         {headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
@@ -95,8 +97,9 @@ class GeneralChat extends Component {
 
  render() {
     const commentsList = this.props.allComments.map((comment, index) => {
-        console.log()
-        return <Comment 
+        console.log(comment)
+        if (comment.userId) {
+            return <Comment 
         comment={comment.comment}
         commentId={comment._id}
         currentUsername={comment.username}
@@ -108,14 +111,16 @@ class GeneralChat extends Component {
         updateComment={this.UpdateComment}
         handleSubmit={this.handleSubmit}
         />
+        }
     })
         return(
-            <div>
-                <h1> General Chat </h1>
+            <div className='page'>
+                <h1 className='page-header'> General Chat </h1>
                 <SubmitComments 
                 handleChange={this.handleChange}
                 handleSubmit={this.handleSubmit}
                 />
+
                {commentsList}
             </div>
         )

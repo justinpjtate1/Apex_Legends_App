@@ -40,15 +40,15 @@ class Comment extends Component{
         return(
             <div>
                     <Form.Group>
-                        {!this.props.currentUsername && <Form.Label>{this.props.databaseUsername}</Form.Label>}
-                        {this.props.currentUsername && <Form.Label>{this.props.currentUsername}</Form.Label>}
+                    
+                        {!this.props.currentUsername && <Form.Label className='normal'>{this.props.databaseUsername}</Form.Label>}
+                        {this.props.currentUsername && <Form.Label className='normal'>{this.props.currentUsername}</Form.Label>}
 
                         <Form className='visible'>
                             <Form.Control type="text" 
                             value={this.state.comment} 
                             disabled={!this.state.editing}
                             onChange={this.inputChangedHandler}/>
-
                             <CommentButtons 
                             commentId={this.props.commentId}
                             deleteComment={this.props.deleteComment}

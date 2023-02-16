@@ -124,18 +124,19 @@ class App extends Component {
   }
   handleFavorite = (weapon) => {
     const weaponID = weapon._id;
-    const weaponIndex = this.state.favoriteWeapons.indexOf(weapon);
+    const wpn= {index: -1};
     let favorites = this.state.favoriteWeapons;
-    let idPresent = false;
+    const obj = {idPresent: false};
     favorites.forEach((item, index) => {
       if (item._id === weaponID) {
-        idPresent = true;
+        obj.idPresent = true;
+        wpn.index = index;
       }
     })
-    if (idPresent === false){
+    if (obj.idPresent === false){
       favorites.push(weapon);
     } else {
-      favorites.splice(weaponIndex, 1);
+      favorites.splice(wpn.index, 1);
     }
     this.setState({
       favoriteWeapons: favorites
@@ -169,8 +170,19 @@ class App extends Component {
             userImage: [response.data.user.profileImg]
           })
         })
-  }  
-
+  } 
+  
+  deactivateAccount = () => {
+    const userId = localStorage.getItem('user');
+    const token = localStorage.getItem('jwt');
+    this.userSignedOut();
+    
+    axios.delete(`${apiUrl}/api/user/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+  } 
 // GENERAL CHAT STATE
 setComments = (comments) => {
   this.setState({
@@ -178,15 +190,9 @@ setComments = (comments) => {
   })
 }
 
-
-
-
-
-
-
   render() {
     return(
-      <>
+      <div className='page'>
           <Router>
             <nav className='navbar navbar-expand-lg navbar-light apex-nav'>
               <Link className={'nav-opts'} to="/api/user">Profile</Link>
@@ -198,16 +204,16 @@ setComments = (comments) => {
               {/* Work out how to do the logout in the backend */}
             </nav>
             <Routes>
-              <Route path="/api/user" element={this.state.auth ? (<Profile user_id={this.state.user_id} username={this.state.username} favoriteWeapons={this.state.favoriteWeapons} userImage={this.state.userImage} onFavorite={this.handleFavorite} getUser={this.getUser}/>) : (<Navigate replace to = {"/"} />)} />
+              <Route path="/api/user" element={this.state.auth ? (<Profile user_id={this.state.user_id} username={this.state.username} favoriteWeapons={this.state.favoriteWeapons} userImage={this.state.userImage} onFavorite={this.handleFavorite} getUser={this.getUser} deactivateAccount={this.deactivateAccount} />) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat user_id={this.state.user_id} username={this.state.username} setComments={this.setComments} allComments={this.state.allComments} />) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/weapons" element={this.state.auth ? (<Weapons onFavorite={this.handleFavorite} isFavorite={this.checkFavorites} favoriteWeapons={this.state.favoriteWeapons} weapons={this.state.weapons}/>) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/signin" element={!this.state.auth ? (<Signin userSignedIn={() => this.userSignedIn()}/>) : (<Navigate replace to = {"/"} />)}/>
               <Route path="/api/signup" element={!this.state.auth ? (<Signup />) : (<Navigate replace to = {"/"} />)}/>
-              <Route path="/" element={!this.state.auth ? (<div><h1>Welcome to this Apex Legends App!</h1><p>View and favorite any weapon in Apex. Chat with other users from all over the world in the general chat. Just sign up!</p></div>) : (<h1>We will set this to be the page name</h1>)}/>
+              <Route path="/" element={!this.state.auth ? (<div><h1 className='page-header'>Welcome to this Apex Legends App!</h1><p className='thin center'>View and favorite any weapon in Apex. Chat with other users from all over the world in the general chat. Just sign up!</p></div>) : (<h1 className='page-header'>Please select a page above - profile, weapons or chat</h1>)}/>
             </Routes>
           </Router>
         
-      </>
+      </div>
       
 
     )
