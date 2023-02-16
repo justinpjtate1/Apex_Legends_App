@@ -214,3 +214,7 @@ font-weight:200;
   display:block;
 }
 
+#simpleUserImage {
+  width: 200px;
+  height: 200px;
+}
