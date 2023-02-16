@@ -184,12 +184,11 @@ class App extends Component {
     })
   } 
 // GENERAL CHAT STATE
-setComments = (allComments) => {
+setComments = (comments) => {
   this.setState({
-    allComments: allComments
+    allComments: comments
   })
 }
-
 
   render() {
     return(
