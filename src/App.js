@@ -194,15 +194,15 @@ setComments = (comments) => {
     return(
       <div className='page'>
           <Router>
-            <nav className='navbar navbar-expand-lg navbar-light apex-nav'>
-              <Link className={'nav-opts'} to="/api/user">Profile</Link>
+          {localStorage.getItem('jwt') ? <nav className='navbar navbar-expand-lg navbar-light apex-nav'>
+          <Link className={'nav-opts'} to="/api/user">Profile</Link>
               <Link className={'nav-opts'} to="/api/weapons">Weapons</Link>
               <Link className={'nav-opts'} to="/api/generalchat">Chat</Link>
               <Link className={'nav-opts'} to="/" onClick={this.userSignedOut}>Logout</Link>
+          </nav> : <nav className='navbar navbar-expand-lg navbar-light apex-nav'>
               <Link className={'nav-opts'} to="/api/signin">Sign In</Link>
               <Link className={'nav-opts'} to="/api/signup">Sign Up</Link>
-              {/* Work out how to do the logout in the backend */}
-            </nav>
+          </nav>}
             <Routes>
               <Route path="/api/user" element={this.state.auth ? (<Profile user_id={this.state.user_id} username={this.state.username} favoriteWeapons={this.state.favoriteWeapons} userImage={this.state.userImage} onFavorite={this.handleFavorite} getUser={this.getUser} deactivateAccount={this.deactivateAccount} />) : (<Navigate replace to = {"/"} />)} />
               <Route path="/api/generalchat" element={this.state.auth ? (<GeneralChat user_id={this.state.user_id} username={this.state.username} setComments={this.setComments} allComments={this.state.allComments} />) : (<Navigate replace to = {"/"} />)} />
