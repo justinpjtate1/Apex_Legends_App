@@ -53,8 +53,8 @@ class Profile extends Component {
         return(
             <div className='page'>
                 <h1 className={'page-header'} >Profile</h1>
-                <form onSubmit={this.handleSubmit}>
-                    <input  className={'apex-input'}
+                <form className='center-align' onSubmit={this.handleSubmit}>
+                    <input  className={'btn-apex'}
                         type="file"
                         label="Image"
                         name="image"
@@ -67,13 +67,13 @@ class Profile extends Component {
                     const base64String = btoa(
                         String.fromCharCode(...new Uint8Array((value.data.data)))
                     );
-                    return <img src={`data:image/png;base64,${base64String}`} key={index} id="profile-picture"/>
+                    return <img className='profile-pic smaller-margin' src={`data:image/png;base64,${base64String}`} key={index} id="profile-picture"/>
                 })}
                 {/* <FileBase64 multiple={ false } onDone={({base64}) => this.setState({
                     image: base64
                 })}/> */}
-                <h2 className={'page-header'} >{this.props.username}</h2>
-                <h3 className={'page-header'} >Favorite Weapons</h3>
+                <h2 className={'page-header margin'} >{this.props.username}</h2>
+                <h3 className={'page-header center underline'} >Favorite Weapons</h3>
                 <div className={'grid'}>
                     {weaponsList}
                 </div>

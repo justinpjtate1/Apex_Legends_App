@@ -74,7 +74,8 @@ class GeneralChat extends Component {
 
 
     // DELETE COMMENT
-    deleteComment = (commentId) => {
+    deleteComment = (e, commentId) => {
+        e.preventDefault();
         console.log(' delete ', commentId);
         axios.delete(`${apiUrl}/api/generalchat/${commentId}`, 
         {headers: {
@@ -161,13 +162,13 @@ class GeneralChat extends Component {
         inputChangedHandler={this.inputChangedHandler} />
     })
         return(
-            <div>
-                <h1> General Chat </h1>
+            <div className='page'>
+                <h1 className='page-header'> General Chat </h1>
                 <Card>
                     <Card.Header>Comment</Card.Header>
                     <Card.Body>
-                        <input type="text" onChange={this.handleChange} />
-                        <Button variant="primary" type="submit" onClick={this.handleSubmit}>Submit</Button>
+                        <input className='card-input' type="text" onChange={this.handleChange} />
+                        <button className={'btn-apex'} type="submit" onClick={this.handleSubmit}>Submit</button>
                     </Card.Body>
                 </Card>
                {commentsList}
