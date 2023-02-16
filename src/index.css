@@ -70,6 +70,8 @@ code {
   font-family: 'Exo 2', sans-serif;
   font-weight:400;
 }
+
+
 .btn-apex:hover,
 .btn-apex:active,
 .btn-apex.active {
@@ -154,14 +156,6 @@ font-weight:200;
   }
 }
 
-button.hidden {
-  display: none;
-}
-
-button.visible {
-  display: '';
-}
-
 #profile-picture-div {
   display: inline-block;
   width: 150px;
@@ -219,3 +213,4 @@ button.visible {
   margin:0 auto;
   display:block;
 }
+
