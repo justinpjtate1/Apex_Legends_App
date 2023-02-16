@@ -219,3 +219,8 @@ button.visible {
   margin:0 auto;
   display:block;
 }
+
+#simpleUserImage {
+  width: 200px;
+  height: 200px;
+}

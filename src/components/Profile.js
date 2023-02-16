@@ -3,7 +3,7 @@ import axios from 'axios';
 import apiUrl from "../apiConfig";
 import imageCompression from 'browser-image-compression'
 import DeactivateAccountModal from './DeactivateAccountModal';
-
+import simpleUserImage from "../userimage.png"
 import WeaponSimpleView from "./WeaponSimpleView";
 
 class Profile extends Component {
@@ -64,20 +64,22 @@ class Profile extends Component {
                     />
                     {this.state.image && <button className="btn-apex" >Submit</button>}
                 </form>
-                {this.props.userImage[0] && this.props.userImage[0].data && this.props.userImage.map((value, index) => {
+                <div className='div-block'>
+                    <div id="profile-picture-div">
+                        <div id="profile-wrapper">
+                        {(this.props.userImage[0] && this.props.userImage[0].data) ? this.props.userImage.map((value, index) => {
                     const base64String = btoa(
                         String.fromCharCode(...new Uint8Array((value.data.data)))
                     );
-                    
-                    return <div key={index} className='div-block'>
-                        <div id="profile-picture-div">
-                        <div id="profile-wrapper">
-                            <img src={`data:image/png;base64,${base64String}`} id="profile-picture"/>
-                            </div>
+                    return <img key={index} src={`data:image/png;base64,${base64String}`} id="profile-picture"/>
+                }) : <img src={simpleUserImage} id="simpleUserImage"></img>}
                         </div>
-                        </div>
-                    
-                })}
+                    </div>
+                </div>
+
+                
+
+                {/* {!this.props.userImage || !this.props.userImage[0].data && <img src={simpleUserImage}></img>} */}
                 {/* <FileBase64 multiple={ false } onDone={({base64}) => this.setState({
                     image: base64
                 })}/> */}
