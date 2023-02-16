@@ -133,7 +133,6 @@ button.visible {
   height: 150px;
   overflow: hidden;
   border-radius: 50%;
-  border: solid;
 }
 
 #profile-wrapper {
@@ -142,4 +141,6 @@ button.visible {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
+  border: solid;
 }
