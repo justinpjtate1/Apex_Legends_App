@@ -60,10 +60,10 @@ class GeneralChat extends Component {
             .then((response) => {
                 console.log('>>>> response ', response)
             let newComment = {
-                "comment": this.state.comment, 
-                "userId": this.props.user_id,
-                "username": this.props.username,
-                "_id": response.data.comment._id
+                "comment": response.data.comment.comment, 
+                "userId": response.data.comment.userId,
+                "_id": response.data.comment._id,
+                "username": this.props.username
             }
             let newAllCommentsSave = this.props.allComments.concat([newComment])
             this.props.setComments(newAllCommentsSave)

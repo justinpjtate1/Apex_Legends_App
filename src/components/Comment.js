@@ -24,6 +24,7 @@ class Comment extends Component{
         return(
             <div>
                     <Form.Group>
+                    
                         {!this.props.currentUsername && <Form.Label className='normal'>{this.props.databaseUsername}</Form.Label>}
                         {this.props.currentUsername && <Form.Label className='normal'>{this.props.currentUsername}</Form.Label>}
 

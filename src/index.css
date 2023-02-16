@@ -161,6 +161,24 @@ button.hidden {
 button.visible {
   display: '';
 }
+
+#profile-picture-div {
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: solid;
+}
+
+#profile-wrapper {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* https://stackoverflow.com/questions/32477563/how-can-i-fit-images-into-circles-without-stretching */
 .center {
   text-align: center;
@@ -191,3 +209,4 @@ button.visible {
 .margin-ten {
   margin: 10px;
 }
+
