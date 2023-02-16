@@ -178,7 +178,13 @@ button.visible {
   align-items: center;
   justify-content: center;
 }
-
+.div-block {
+  display: block;
+  text-align: center;
+}
+.center-div {
+  margin: auto;
+}
 /* https://stackoverflow.com/questions/32477563/how-can-i-fit-images-into-circles-without-stretching */
 .center {
   text-align: center;
@@ -210,3 +216,7 @@ button.visible {
   margin: 10px;
 }
 
+.center-button {
+  margin:0 auto;
+  display:block;
+}

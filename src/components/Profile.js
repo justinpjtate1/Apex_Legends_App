@@ -69,10 +69,12 @@ class Profile extends Component {
                         String.fromCharCode(...new Uint8Array((value.data.data)))
                     );
                     
-                    return <div key={index} id="profile-picture-div">
+                    return <div key={index} className='div-block'>
+                        <div id="profile-picture-div">
                         <div id="profile-wrapper">
                             <img src={`data:image/png;base64,${base64String}`} id="profile-picture"/>
                             </div>
+                        </div>
                         </div>
                     
                 })}
