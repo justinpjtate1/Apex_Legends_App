@@ -21,9 +21,6 @@ class Comment extends Component{
     }
 
     changeView = (view) => {
-        console.log('4', this.props.userId)
-        console.log('3', this.props.userId._id)
-        console.log('5', localStorage.getItem('user'))
         if (localStorage.getItem('user') === this.props.userId._id || localStorage.getItem('user') ===  this.props.userId){
             if(view === 'show'){
             this.setState({
