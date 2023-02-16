@@ -145,8 +145,9 @@ class GeneralChat extends Component {
 
  render() {
     const commentsList = this.props.allComments.map((comment, index) => {
-        console.log()
-        return <Comment 
+        console.log(comment)
+        if (comment.userId) {
+            return <Comment 
         comment={comment.comment}
         currentUsername={comment.username}
         databaseUsername = {comment.userId.username}
@@ -160,6 +161,8 @@ class GeneralChat extends Component {
         isDisabled={this.state.isDisabled}
         updateClassNameVisible={this.state.updateClassNameVisible}
         inputChangedHandler={this.inputChangedHandler} />
+        }
+
     })
         return(
             <div className='page'>
