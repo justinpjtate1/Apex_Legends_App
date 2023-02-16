@@ -1,20 +1,27 @@
 import React, { Component } from "react";
-import Button from 'react-bootstrap/Button';
-
 
 
 class CommentButtons extends Component{
 
+    componentDidMount = () => {
+
+    }
+
     render() {
+
+        let actionBtn = null
+        if(this.props.isEditing === false) {
+            actionBtn =  <>
+                            <button onClick={(e) => {e.preventDefault(); this.props.changeView('edit')}} className={`btn-apex`} >Update</button>
+                            
+                            <button onClick={(event)=>{event.preventDefault(); this.props.deleteComment(this.props.commentId)}} className={`btn-apex`}>Delete</button>
+                        </>
+        } else {
+            actionBtn = <button className={`btn-apex`}  onClick={(e) => {e.preventDefault(); this.props.changeView('show')}} >Save</button>
+        }
         return(
             <>
-                    <button
-                    className={`${this.props.updateClassNameHidden} btn-apex`}  
-                    onClick={(event)=>{this.props.saveUpdatedComment(this.props.commentId, event)}} >Save</button>
-
-                    <button onClick={this.props.updateComment} className={`${this.props.updateClassNameVisible} btn-apex`} >Update</button>
-
-                    <button onClick={()=>{this.props.deleteComment(this.props.commentId)}} className={`${this.props.updateClassNameVisible} btn-apex`}>Delete</button>
+                {actionBtn}
             </>
         )
     }

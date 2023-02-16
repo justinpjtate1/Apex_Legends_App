@@ -1,24 +1,43 @@
 import React, { Component } from "react";
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import CommentButtons from "./CommentButtons";
+import { findDOMNode } from 'react-dom'
 
 
 class Comment extends Component{
 
-    // constructor(props){
-    //     super(props)
-    //     this.state = {
-    //         comment: this.props.comment
-    //     }
-    // }
+    constructor(props){
+        super(props)
+        this.state = {
+            editing: false,
+            comment: this.props.comment
+        }
+    }
 
-    // inputChangedHandler = (event) => {
-    //     this.setState({
-    //         comment: event.target.value
-    //     })
-    //     // May be call for search result
-    // }
+    inputChangedHandler = (event) => {
+        this.setState({
+            comment: event.target.value
+        })
+    }
+
+    changeView = (view) => {
+        console.log('4', this.props.userId)
+        console.log('3', this.props.userId._id)
+        console.log('5', localStorage.getItem('user'))
+        if (localStorage.getItem('user') === this.props.userId._id || localStorage.getItem('user') ===  this.props.userId){
+            if(view === 'show'){
+            this.setState({
+                editing: false
+            })
+            this.props.updateComment(this.props.commentId, this.state.comment)
+        } else if (view === 'edit'){
+            this.setState({
+                editing: true
+            })
+        }
+        }
+        
+    }
 
     render() {
         return(
@@ -27,24 +46,17 @@ class Comment extends Component{
                         {!this.props.currentUsername && <Form.Label>{this.props.databaseUsername}</Form.Label>}
                         {this.props.currentUsername && <Form.Label>{this.props.currentUsername}</Form.Label>}
 
-                        <Form>
+                        <Form className='visible'>
                             <Form.Control type="text" 
-                            value={this.props.comment} 
-                            disabled={this.props.isDisabled}
-                            onChange={(e)=>{this.props.inputChangedHandler(e, this.props.index)}}/>
+                            value={this.state.comment} 
+                            disabled={!this.state.editing}
+                            onChange={this.inputChangedHandler}/>
 
-                            <button onClick={this.props.updateComment} className={`${this.props.updateClassNameVisible} btn-apex`} >Update</button>
-
-                            <button className={`${this.props.updateClassNameHidden} btn-apex`}  onClick={(event)=>{this.props.saveUpdatedComment(this.props.commentId, event)}} >Save</button>
-
-                            <button onClick={()=>{this.props.deleteComment(this.props.commentId)}} className={`${this.props.updateClassNameVisible} btn-apex`}>Delete</button>
                             <CommentButtons 
-                            updateComment={this.props.updateComment}
-                            updateClassNameHidden={this.props.updateClassNameHidden}
-                            updateClassNameVisible={this.props.updateClassNameHidden}
                             commentId={this.props.commentId}
-                            saveUpdatedComment={this.props.saveUpdatedComment}
                             deleteComment={this.props.deleteComment}
+                            changeView={this.changeView}
+                            isEditing={this.state.editing}
                             />
 
                         </Form>
