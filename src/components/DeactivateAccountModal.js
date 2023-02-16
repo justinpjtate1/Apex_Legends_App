@@ -14,8 +14,8 @@ function DeactivateAccountModal(props) {
     }
 
     return(
-        <>
-        <button className="btn-apex" onClick={handleOpen}>
+        <div>
+        <button className="btn-apex center-button" onClick={handleOpen}>
             Deactivate Account
         </button>
 
@@ -30,7 +30,7 @@ function DeactivateAccountModal(props) {
             <Modal.Footer className='modal-footer'>
             </Modal.Footer>
         </Modal>
-        </>
+        </div>
     )
 }
 
