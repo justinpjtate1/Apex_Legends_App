@@ -46,12 +46,14 @@ class Signin extends Component {
     render() {
         return(
             <div>
-            <h1>Sign In</h1>
-            <label>Username</label>
-            <input type="text" id="signup-username" onChange={this.onUsernameChange}></input>
-            <label>Password</label>
-            <input type="text" id="signup-password" onChange={this.onPasswordChange}></input>
-            <button className={'btn-apex'} onClick={this.handleSigninClick}>Sign In!</button>
+            <h1 className='page-header'>Sign In</h1>
+            <div className='center-align'>
+            <label className='normal margin-ten'>Username: </label>
+            <input className='card-input margin-ten' type="text" id="signup-username" onChange={this.onUsernameChange}></input><br/>
+            <label className='normal margin-ten'>Password: </label>
+            <input className='card-input margin-ten' type="text" id="signup-password" onChange={this.onPasswordChange}></input><br/>
+            <button className={'btn-apex margin-ten'} onClick={this.handleSigninClick}>Sign In!</button>
+            </div>
         </div>
         )
     }
