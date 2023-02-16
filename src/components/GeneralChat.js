@@ -34,7 +34,9 @@ class GeneralChat extends Component {
 
     // SAVING COMMENTS TO DATABASE
     handleSubmit = (comment) => {
-        axios.post(`${apiUrl}/api/generalchat`, 
+
+        if (comment.length>0) {
+            axios.post(`${apiUrl}/api/generalchat`, 
             { comment: {
                     userId: this.props.user_id,
                     comment: comment
@@ -52,14 +54,14 @@ class GeneralChat extends Component {
             }
             let newAllCommentsSave = this.props.allComments.concat([newComment])
             this.props.setComments(newAllCommentsSave)
-          })  
-          .catch(e => console.log(`error: SAVE >>> ${e}`))
+            })  
+            .catch(e => console.log(`error: SAVE >>> ${e}`))
+        }
     
       }
 
     // DELETE COMMENT
-    deleteComment = (e, commentId) => {
-        e.preventDefault();
+    deleteComment = (commentId) => {
         console.log(' delete ', commentId);
         axios.delete(`${apiUrl}/api/generalchat/${commentId}`, 
         {headers: {
