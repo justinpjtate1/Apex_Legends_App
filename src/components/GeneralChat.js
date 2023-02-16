@@ -78,7 +78,8 @@ class GeneralChat extends Component {
             let newComment = {
                 "comment": response.data.comment.comment, 
                 "userId": response.data.comment.userId,
-                "_id": response.data.comment._id
+                "_id": response.data.comment._id,
+                "username": this.props.username
             }
             this.setState(prevState =>{ 
                 return{
@@ -94,15 +95,12 @@ class GeneralChat extends Component {
 
     // DELETE COMMENT
     deleteComment = (commentId, index) => {
-        console.log('delete ', commentId)
-
         axios.delete(`${apiUrl}/api/generalchat/${commentId}`, 
         {headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
         },
         })
         .then((response) => {
-            console.log('response >>>', response);
             const currentComments = this.state.allComments
             currentComments.splice(index, 1)
             console.log(currentComments)
@@ -170,7 +168,8 @@ class GeneralChat extends Component {
         const commentsList = this.state.allComments.map((comment, index) => {
             return <Comment 
             comment={comment.comment}
-            username={this.props.username}
+            currentUsername={comment.username}
+            databaseUsername = {comment.userId.username}
             key={index}
             index={index}
             deleteComment={this.deleteComment}

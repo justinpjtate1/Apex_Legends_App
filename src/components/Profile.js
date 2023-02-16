@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import apiUrl from "../apiConfig";
 import imageCompression from 'browser-image-compression'
+import DeactivateAccountModal from './DeactivateAccountModal';
 
 import WeaponSimpleView from "./WeaponSimpleView";
 
@@ -67,12 +68,18 @@ class Profile extends Component {
                     const base64String = btoa(
                         String.fromCharCode(...new Uint8Array((value.data.data)))
                     );
-                    return <img src={`data:image/png;base64,${base64String}`} key={index} id="profile-picture"/>
+                    return <div key={index} id="profile-picture-div">
+                        <div id="profile-wrapper">
+                            <img src={`data:image/png;base64,${base64String}`} id="profile-picture"/>
+                            </div>
+                        </div>
+                    
                 })}
                 {/* <FileBase64 multiple={ false } onDone={({base64}) => this.setState({
                     image: base64
                 })}/> */}
                 <h3>{this.props.username}</h3>
+                <DeactivateAccountModal deactivateAccount={() => this.props.deactivateAccount()}/>
                 <h2>Favorite Weapons</h2>
                 {weaponsList}
             </div>
