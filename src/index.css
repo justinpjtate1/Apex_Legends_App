@@ -1,3 +1,6 @@
+html {
+  background-color: #414141;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11,23 +14,46 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
 .modal {
   width: auto;
   margin: 30px auto;
   display: inline-block;
   color: #232323;
 }
+.card-header {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: bold;
+}
 .modal-body,.modal-header,.modal-footer {
   background-color: #414141;
   color: #FFF0EA;
 }
-
+.card-input {
+  padding: 10px;
+  border-radius: 6px;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 400;
+  border: 1px solid #414141;
+}
 .page-header {
  color: #FFF0EA;
+ font-family: 'Exo 2', sans-serif;
+ font-weight: bold;
+ text-align: center;
+}
+.normal {
+  color: #FFF0EA;
+  font-family: 'Exo 2', sans-serif;
+  font-weight:400;
+}
+.thin {
+  color: #FFF0EA;
+  font-family: 'Exo 2', sans-serif;
+  font-weight:200;  
 }
 .page {
   background-color: #414141 !important;
+  min-height: 100% !important;
 }
 .responsiveImage {
   display: block;
@@ -41,10 +67,11 @@ code {
   border-radius: 6px;
   padding: 10px;
   margin: 10px;
+  font-family: 'Exo 2', sans-serif;
+  font-weight:400;
 }
 .btn-apex:hover,
 .btn-apex:active,
-.btn-apex:focus,
 .btn-apex.active {
   /* let's darken #004E64 a bit for hover effect */
   background: #993339;
@@ -85,6 +112,14 @@ code {
 background-color: #232323;
 margin: 0px auto;
 padding: 0px;
+font-family: 'Exo 2', sans-serif;
+font-weight:200;
+}
+.apex-input {
+  font-family: 'Exo 2', sans-serif;
+  font-weight:200;
+  color: #FFF0EA;
+  margin: 20px;
 }
 .nav-opts {
   color: #FFF0EA;
@@ -143,3 +178,35 @@ button.visible {
   align-items: center;
   justify-content: center;
 }
+
+/* https://stackoverflow.com/questions/32477563/how-can-i-fit-images-into-circles-without-stretching */
+.center {
+  text-align: center;
+}
+.margin {
+  margin: 10px 42px 10px 42px;
+}
+.smaller-margin {
+  margin: 10px 20px 10px 20px;
+}
+.underline {
+  text-decoration: underline;
+}
+.profile-pic {
+  border-radius: 20px;
+  border: 2px solid #232323;
+  display: block;
+  margin-left: auto;
+  margin-right: auto; 
+}
+
+.center-align {
+  margin-left: auto;
+  margin-right: auto; 
+  text-align: center;
+}
+
+.margin-ten {
+  margin: 10px;
+}
+

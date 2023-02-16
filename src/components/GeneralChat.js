@@ -12,7 +12,6 @@ class GeneralChat extends Component {
             comment: '',
             commentId: '',
             updateComment: '',
-            allComments: [],
             updateClassNameHidden: 'hidden',
             updateClassNameVisible: '',
             isDisabled: true,
@@ -26,31 +25,17 @@ class GeneralChat extends Component {
     }
 
 
-    // GENERAL CHAT GET
-    getAllComments = () => {
+    // DISPLAY ALL COMMENTS
+    componentDidMount = () => {
         axios.get(`${apiUrl}/api/generalchat`, 
-        {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`
-        }
+        {headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`}
         })
         .then((response) => {
-            console.log(response.data)
-            this.setState({
-                allComments: response.data.comment,
-                comment: '',
-            })
+            this.props.setComments(response.data.comment)
         })
         .catch(e => console.log(`error: DISPLAY >>> ${e}`))
     }
-
-
-
-    // DISPLAY ALL COMMENTS
-    componentDidMount = () => {
-        this.getAllComments()
-    }
-
 
 
     // SAVE INPUT
@@ -59,7 +44,6 @@ class GeneralChat extends Component {
             comment: event.target.value
         })
         }
-
 
 
     // SAVING COMMENTS TO DATABASE
@@ -74,43 +58,39 @@ class GeneralChat extends Component {
                 Authorization: `Bearer ${localStorage.getItem("jwt")}`
             },})
             .then((response) => {
-                console.log(response)
+                console.log('>>>> response ', response)
             let newComment = {
                 "comment": response.data.comment.comment, 
                 "userId": response.data.comment.userId,
                 "_id": response.data.comment._id,
                 "username": this.props.username
             }
-            this.setState(prevState =>{ 
-                return{
-                    allComments: [...prevState.allComments, newComment]
-                }
-                })
+            let newAllCommentsSave = this.props.allComments.concat([newComment])
+            this.props.setComments(newAllCommentsSave)
           })  
           .catch(e => console.log(`error: SAVE >>> ${e}`))
-          
       }
 
 
 
     // DELETE COMMENT
-    deleteComment = (commentId, index) => {
+    deleteComment = (e, commentId) => {
+        e.preventDefault();
+        console.log(' delete ', commentId);
         axios.delete(`${apiUrl}/api/generalchat/${commentId}`, 
         {headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`
         },
         })
         .then((response) => {
-            const currentComments = this.state.allComments
-            currentComments.splice(index, 1)
-            console.log(currentComments)
-            this.setState({
-                allComments: currentComments
+            let newAllCommentsDelete =  this.props.allComments.filter((comment) => {
+                console.log('comment id', comment._id)
+                return comment._id !== commentId
             })
+            this.props.setComments(newAllCommentsDelete)
         })
         .catch(e => console.log(`error: DELETE >>> ${e}`))  
     }  
-
 
 
     // UPDATE COMMENT
@@ -134,11 +114,10 @@ class GeneralChat extends Component {
     }
 
 
-        
     // SAVE UPDATED COMMENT
     saveUpdatedComment = (commentId, event) => {
         console.log('>> event ', event);
-        axios.put(`/api/generalchat/${commentId}`, 
+        axios.put(`${apiUrl}/api/generalchat/${commentId}`, 
         {comment: {
             _id: commentId,
             userId: this.props.user_id,
@@ -164,32 +143,32 @@ class GeneralChat extends Component {
  } 
     
 
-    render() {
-        const commentsList = this.state.allComments.map((comment, index) => {
-            return <Comment 
-            comment={comment.comment}
-            currentUsername={comment.username}
-            databaseUsername = {comment.userId.username}
-            key={index}
-            index={index}
-            deleteComment={this.deleteComment}
-            updateComment={this.updateComment}
-            commentId={comment._id}
-            updateClassNameHidden={this.state.updateClassNameHidden}
-            saveUpdatedComment={this.saveUpdatedComment}
-            isDisabled={this.state.isDisabled}
-            updateClassNameVisible={this.state.updateClassNameVisible}
-            inputChangedHandler={this.inputChangedHandler}
-            />
-        })
+ render() {
+    const commentsList = this.props.allComments.map((comment, index) => {
+        console.log()
+        return <Comment 
+        comment={comment.comment}
+        currentUsername={comment.username}
+        databaseUsername = {comment.userId.username}
+        key={index}
+        index={index}
+        deleteComment={this.deleteComment}
+        updateComment={this.updateComment}
+        commentId={comment._id}
+        updateClassNameHidden={this.state.updateClassNameHidden}
+        saveUpdatedComment={this.saveUpdatedComment}
+        isDisabled={this.state.isDisabled}
+        updateClassNameVisible={this.state.updateClassNameVisible}
+        inputChangedHandler={this.inputChangedHandler} />
+    })
         return(
-            <div>
-                <h1> General Chat </h1>
+            <div className='page'>
+                <h1 className='page-header'> General Chat </h1>
                 <Card>
                     <Card.Header>Comment</Card.Header>
                     <Card.Body>
-                        <input type="text" onChange={this.handleChange} />
-                        <Button variant="primary" type="submit" onClick={this.handleSubmit}>Submit</Button>
+                        <input className='card-input' type="text" onChange={this.handleChange} />
+                        <button className={'btn-apex'} type="submit" onClick={this.handleSubmit}>Submit</button>
                     </Card.Body>
                 </Card>
                {commentsList}

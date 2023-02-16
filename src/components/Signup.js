@@ -38,12 +38,14 @@ class Signup extends Component {
     render() {
         return(
             <div>
-            <h1>Sign Up</h1>
-            <label>Username</label>
-            <input type="text" id="signup-username" onChange={this.onUsernameChange}></input>
-            <label>Password</label>
-            <input type="text" id="signup-password" onChange={this.onPasswordChange}></input>
-            <button className={'btn-apex'} onClick={this.handleRegisterClick}>Sign Up!</button>
+            <h1 className='page-header'>Sign Up</h1>
+            <div className='center-align'>
+            <label className='normal margin-ten'>Username: </label>
+            <input className='card-input margin-ten' type="text" id="signup-username" onChange={this.onUsernameChange}></input><br/>
+            <label className='normal margin-ten'>Password: </label>
+            <input className='card-input margin-ten' type="text" id="signup-password" onChange={this.onPasswordChange}></input><br/>
+            <button className={'btn-apex margin-ten'} onClick={this.handleRegisterClick}>Sign Up!</button>
+            </div>
         </div>
         )
     }

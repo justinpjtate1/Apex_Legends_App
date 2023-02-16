@@ -52,22 +52,23 @@ class Profile extends Component {
             return <WeaponSimpleView isFavorite={this.props.favoriteWeapons.includes(weapon)} onFavorite={this.props.onFavorite} key={index} weapon={weapon} />;
         })
         return(
-            <div>
-                <h1>Profile</h1>
-                <form onSubmit={this.handleSubmit}>
-                    <input 
+            <div className='page'>
+                <h1 className={'page-header'} >Profile</h1>
+                <form className='center-align' onSubmit={this.handleSubmit}>
+                    <input  className={'btn-apex'}
                         type="file"
                         label="Image"
                         name="image"
                         accept=".jpeg, .png, .jpg"
                         onChange={this.handleFileSelect}
                     />
-                    {this.state.image && <button>Submit</button>}
+                    {this.state.image && <button className="btn-apex" >Submit</button>}
                 </form>
                 {this.props.userImage[0] && this.props.userImage[0].data && this.props.userImage.map((value, index) => {
                     const base64String = btoa(
                         String.fromCharCode(...new Uint8Array((value.data.data)))
                     );
+                    
                     return <div key={index} id="profile-picture-div">
                         <div id="profile-wrapper">
                             <img src={`data:image/png;base64,${base64String}`} id="profile-picture"/>
@@ -78,10 +79,12 @@ class Profile extends Component {
                 {/* <FileBase64 multiple={ false } onDone={({base64}) => this.setState({
                     image: base64
                 })}/> */}
-                <h3>{this.props.username}</h3>
+                <h2 className={'page-header margin'} >{this.props.username}</h2>
                 <DeactivateAccountModal deactivateAccount={() => this.props.deactivateAccount()}/>
-                <h2>Favorite Weapons</h2>
-                {weaponsList}
+                <h3 className={'page-header center underline'} >Favorite Weapons</h3>
+                <div className={'grid'}>
+                    {weaponsList}
+                </div>
             </div>
         )
     }
