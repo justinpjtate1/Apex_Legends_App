@@ -3,6 +3,8 @@
 This is a collab between [justinpjtate1](https://github.com/justinpjtate1), [AZ-LCA](https://github.com/AZ-LCA) and [nonisaurus](https://github.com/nonisaurus) to create a full stack web application.
 Please find the deployed version of our project [here](https://apex-legends-app.netlify.app).
 
+(Also please find code on justin-dev branch)
+
 <br>
 
 ## Technology used
